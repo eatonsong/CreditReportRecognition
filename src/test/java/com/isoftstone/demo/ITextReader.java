@@ -11,6 +11,7 @@ public class ITextReader {
     public static void main(String[] args) throws IOException {
         //System.out.print(getPdfFileText("E://test.pdf"));
         parsePdf("E://test.pdf","E://test.txt");
+
     }
     /**
      * @param pdf PDF文件路径
