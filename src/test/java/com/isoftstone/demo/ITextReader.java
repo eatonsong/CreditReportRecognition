@@ -10,7 +10,7 @@ import com.itextpdf.text.pdf.parser.*;
 public class ITextReader {
     public static void main(String[] args) throws IOException {
         //System.out.print(getPdfFileText("E://test.pdf"));
-        parsePdf("E://test.pdf","E://test.txt");
+        parsePdf("E://ExampleFile.pdf","E://test.txt");
 
     }
     /**
