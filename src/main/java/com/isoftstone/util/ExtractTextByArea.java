@@ -32,7 +32,7 @@ public class ExtractTextByArea
             }
             PDFTextStripperByArea stripper = new PDFTextStripperByArea();
             stripper.setSortByPosition( true );
-            Rectangle rect = new Rectangle( 10, 280, 275, 60 );
+            Rectangle rect = new Rectangle( 109, 200, 345, 5 );
             stripper.addRegion( "class1", rect );
             List allPages = document.getDocumentCatalog().getAllPages();
             PDPage firstPage = (PDPage)allPages.get( 0 );

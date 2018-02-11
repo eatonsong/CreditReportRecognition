@@ -1,6 +1,8 @@
 package com.isoftstone.util;
 
 import java.io.*;
+
+import com.sun.xml.internal.fastinfoset.util.CharArray;
 import org.apache.pdfbox.exceptions.InvalidPasswordException;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -71,10 +73,26 @@ public class PrintTextLocations extends PDFTextStripper {
         }
         yscale = text.getYScale();*/
 
-        if(text.getWidthDirAdj()==15.0){//一级标题
+/*        if(text.getWidthDirAdj()==15.0){//一级标题
             set.add(text.getYScale()+"");
             System.out.println(text.getY()+"");
+        }*/
+        String str="2018020600005110511238";
+        char[] arr = str.toCharArray();
+        for(char b:arr){
+            if(String.valueOf(b).equals(text.getCharacter())){
+                System.out.println("String[" +
+                        " x="+ text.getXDirAdj() +
+                        " y=" + text.getYDirAdj()+
+                        " fs=" + text.getFontSize() +
+                        " xscale="+ text.getXScale() +
+                        " yscale="+ text.getYScale() +
+                        " width="+ text.getWidthDirAdj() +
+                        " height=" + text.getHeightDir() +
+                        " space="+ text.getWidthOfSpace() + "]" + text.getCharacter());
+            }
         }
+
 
 
      /*   System.out.println("String[" + text.getXDirAdj() + ","
