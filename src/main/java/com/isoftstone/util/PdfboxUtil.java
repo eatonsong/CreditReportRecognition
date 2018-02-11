@@ -17,8 +17,8 @@ public class PdfboxUtil {
      */
 
     public static void main(String[] args) {
-        String pdfPath = "E://111.pdf";
-        String txtfilePath = "E://test.txt";
+        String pdfPath = "src/main/resources/pdf/001.pdf";
+        String txtfilePath = "src/main/resources/output/test.txt";
         PdfboxUtil pdfutil = new PdfboxUtil();
         try {
             String content = pdfutil.getTextFromPdf(pdfPath);
