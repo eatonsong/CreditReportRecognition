@@ -11,7 +11,7 @@ import com.itextpdf.text.pdf.parser.TextRenderInfo;
 public class ITextLocation
 {
     // 定义关键字
-    private static String KEY_WORD = "出生日期";
+    private static String KEY_WORD = "性";
     // 定义返回值
     private static float[] resu = null;
     // 定义返回页码
