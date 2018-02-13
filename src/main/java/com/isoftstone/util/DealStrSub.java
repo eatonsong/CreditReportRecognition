@@ -74,16 +74,23 @@ public class DealStrSub {
     }
     /***  
      *    
-     *   
+     *   删除匹配str1 ,str2中间内容
      * @author Eaton  
      * @date 2018/2/12 17:30  
      * @param [string, str1, str2]
-     * @return java.lang.String  
+     * @return java.lang.String
      */  
     public static String deleteMiddleString(String string, String str1, String str2){
-        int beginIndex = string.indexOf(str1);
-        if(beginIndex!=-1){
-            String str3 =  string.substring(beginIndex);
+        while (true){
+            int beginIndex = string.indexOf(str1);
+            if(beginIndex<0){
+                break;
+            }
+            String strTmp0 = string.substring(0,beginIndex);
+            String strTmpB = string.substring(beginIndex);
+            int endIndex = strTmpB.indexOf(str2);
+            String strTmp1 = strTmpB.substring(endIndex);
+            string = strTmp0 + strTmp1;
         }
         return string;
     }
@@ -92,9 +99,17 @@ public class DealStrSub {
      * @param args
      */
     public static void main(String[] args) {
-        String str = "abc3443abcfgjhgabcgfjabc";
+/*        String str = "abc3443abcfgjhgabcgfjabc";
         String rgex = "abc(.*?)abc";
         System.out.println(getSubUtil(str,rgex));
-        System.out.println(getSubUtilSimple(str, rgex));
+        System.out.println(getSubUtilSimple(str, rgex));*/
+        String str = "\r\nfwerwer\r\n11werwerwe\r\n22werwerwer\r\n11werwerwe\r\n";
+        str =  str.replaceAll("\r\n","");
+        System.out.println(str);
+        Matcher m= Pattern.compile("fwe(.*)rwe").matcher(str);
+        while(m.find()){
+            System.out.println(m.group(1));
+        }
+
     }
 }
