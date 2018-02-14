@@ -5,6 +5,11 @@ package com.isoftstone.dto;/*
  */
 
 
+import com.isoftstone.dto.msg1.BaseMsg;
+import com.isoftstone.dto.msg1.BaseMsgData;
+import com.isoftstone.dto.msg2.SumMsg;
+import com.isoftstone.dto.msg3.CreditMsg;
+
 public class Messages {
     private String reportNo;//报告编号
     private String requestTime;//查询请求时间
@@ -17,6 +22,24 @@ public class Messages {
     private String reason;//查询原因
     private BaseMsg baseMsg;//个人基本信息
     private BaseMsgData baseMsgData;//数据发生机构
+    private SumMsg sumMsg;//信息概要
+    private CreditMsg creditMsg;//信贷交易信息明细
+
+    public CreditMsg getCreditMsg() {
+        return creditMsg;
+    }
+
+    public void setCreditMsg(CreditMsg creditMsg) {
+        this.creditMsg = creditMsg;
+    }
+
+    public SumMsg getSumMsg() {
+        return sumMsg;
+    }
+
+    public void setSumMsg(SumMsg sumMsg) {
+        this.sumMsg = sumMsg;
+    }
 
     public BaseMsg getBaseMsg() {
         return baseMsg;
