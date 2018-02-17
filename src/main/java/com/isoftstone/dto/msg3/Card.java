@@ -9,7 +9,6 @@ public class Card {
     private String status;//账户状态
     private String used;//已用额度
     private String used6;//最近6个月平均使用额度
-    private String usedMax6;//最近6个月平均使用额度
     private String usedMax;//最大使用额度
     private String thisMonth;//本月应还款
     //账单日 本月实还款 最近一次还款日期 当前逾期期数 当前逾期金额
@@ -18,6 +17,8 @@ public class Card {
     private String payLast;
     private String overdueNum;
     private String overdue;
+
+
     private String record;//还款记录
 
     public String getMessage() {
@@ -52,13 +53,6 @@ public class Card {
         this.used6 = used6;
     }
 
-    public String getUsedMax6() {
-        return usedMax6;
-    }
-
-    public void setUsedMax6(String usedMax6) {
-        this.usedMax6 = usedMax6;
-    }
 
     public String getUsedMax() {
         return usedMax;

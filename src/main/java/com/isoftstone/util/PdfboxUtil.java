@@ -14,6 +14,11 @@ import com.isoftstone.dto.msg2.Tips;
 import com.isoftstone.dto.msg3.Card;
 import com.isoftstone.dto.msg3.CreditMsg;
 import com.isoftstone.dto.msg3.Loans;
+import com.isoftstone.dto.msg4.CommonMsg;
+import com.isoftstone.dto.msg4.PayCompany;
+import com.isoftstone.dto.msg4.PayRecord;
+import com.isoftstone.dto.msg5.QueryMsg;
+import com.isoftstone.dto.msg5.QueryCom;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.encryption.InvalidPasswordException;
@@ -25,7 +30,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
+import static java.util.regex.Pattern.*;
 
 public class PdfboxUtil {
 
@@ -44,13 +50,18 @@ public class PdfboxUtil {
             String regex2 = ".*(Page.*\r\n).*";
             content = content.replaceAll(regex1, "");
             content = content.replaceAll(regex2, "");
+            String content0 = content.replaceAll("\r\n","");
             content = content.replaceAll("\r\n", " ");
-            Matcher m = Pattern.compile("个人基本信息(.*?)信息概要").matcher(content);
-            Matcher mm = Pattern.compile("信息概要(.*?)信贷交易信息明细").matcher(content);
-            Matcher mmm = Pattern.compile("信贷交易信息明细(.*?)公共信息明细").matcher(content);
+            Matcher m = compile("个人基本信息(.*?)信息概要").matcher(content);
+            Matcher mm = compile("信息概要(.*?)三 信贷交易信息明细").matcher(content);
+            Matcher mmm = compile("三 信贷交易信息明细(.*?)四 公共信息明细").matcher(content);
+            Matcher mmmm = compile("四 公共信息明细(.*?)五 查询记录").matcher(content);
+            Matcher mmmmm = compile("五 查询记录(.*?)报告说明").matcher(content);
             String baseMsg = null;
             String sumMsg = null;
             String creditMsg = null;
+            String commonMsg = null;
+            String queryMsg = null;
             if (m.find()) {
                 baseMsg = m.group(1);
             }
@@ -60,11 +71,17 @@ public class PdfboxUtil {
             if(mmm.find()){
                 creditMsg = mmm.group(1);
             }
+            if(mmmm.find()){
+                commonMsg = mmmm.group(1);
+            }
+            if(mmmmm.find()){
+                queryMsg = mmmmm.group(1);
+            }
 
             BaseMsg base = new BaseMsg();
             BaseMsgData baseData = new BaseMsgData();
             if (baseMsg != null) {
-                Matcher m1 = Pattern.compile("手机号码(.*?)数据发生机构名称").matcher(baseMsg);
+                Matcher m1 = compile("手机号码(.*?)数据发生机构名称").matcher(baseMsg);
                 //性别 出生日期 婚姻状况 手机号码
                 if (m1.find()) {
                     String s1 = m1.group(1).trim();
@@ -81,7 +98,7 @@ public class PdfboxUtil {
                         }
                     }
                 }
-                Matcher m2 = Pattern.compile("数据发生机构名称(.*?)单位电话").matcher(baseMsg);
+                Matcher m2 = compile("数据发生机构名称(.*?)单位电话").matcher(baseMsg);
                 if (m2.find()) {
                     String s2 = m2.group(1).replaceAll("数据发生机构名称", "").trim();
                     String ss[] = s2.split(" +");
@@ -98,7 +115,7 @@ public class PdfboxUtil {
                     }
                 }
                 //单位电话 住宅电话 学历 学位
-                Matcher m3 = Pattern.compile("学位(.*?)数据发生机构名称").matcher(baseMsg);
+                Matcher m3 = compile("学位(.*?)数据发生机构名称").matcher(baseMsg);
                 if (m3.find()) {
                     String s1 = m3.group(1).trim();
                     String ss[] = s1.split(" +");
@@ -114,7 +131,7 @@ public class PdfboxUtil {
                         }
                     }
                 }
-                Matcher m4 = Pattern.compile("数据发生机构名称(.*?)通讯地址").matcher(baseMsg);
+                Matcher m4 = compile("数据发生机构名称(.*?)通讯地址").matcher(baseMsg);
                 if (m4.find()) {
                     String s2 = m4.group(1).replaceAll("数据发生机构名称", "").trim();
                     String ss[] = s2.split(" +");
@@ -130,7 +147,7 @@ public class PdfboxUtil {
                         }
                     }
                 }
-                Matcher m5 = Pattern.compile("户籍地址(.*?)数据发生机构名称").matcher(baseMsg);
+                Matcher m5 = compile("户籍地址(.*?)数据发生机构名称").matcher(baseMsg);
                 //通讯地址 户籍地址
                 if (m5.find()) {
                     String s1 = m5.group(1).trim();
@@ -148,7 +165,7 @@ public class PdfboxUtil {
                         }
                     }
                 }
-                Matcher m6 = Pattern.compile("数据发生机构名称(.*?)配偶信息").matcher(baseMsg);
+                Matcher m6 = compile("数据发生机构名称(.*?)配偶信息").matcher(baseMsg);
                 if (m6.find()) {
                     String s2 = m6.group(1).replaceAll("数据发生机构名称", "").trim();
                     String ss[] = s2.split(" +");
@@ -162,7 +179,7 @@ public class PdfboxUtil {
                         }
                     }
                 }
-                Matcher m7 = Pattern.compile("联系电话(.*?)数据发生机构名称").matcher(baseMsg);
+                Matcher m7 = compile("联系电话(.*?)数据发生机构名称").matcher(baseMsg);
                 //姓名 证件类型 证件号码 工作单位 联系电话 配偶
                 if (m7.find()) {
                     String s1 = m7.group(1).trim();
@@ -180,14 +197,14 @@ public class PdfboxUtil {
                         }
                     }
                 }
-                Matcher m8 = Pattern.compile("数据发生机构名称(.*?)居住信息").matcher(baseMsg);
+                Matcher m8 = compile("数据发生机构名称(.*?)居住信息").matcher(baseMsg);
                 if (m8.find()) {
                     String s2 = m8.group(1).replaceAll("数据发生机构名称", "").trim();
                     baseData.setWife(s2);
                     int num=baseMsg.indexOf(m8.group(1));
                     baseMsg = baseMsg.substring(num);
                 }
-                Matcher ma = Pattern.compile("信息更新日期(.*?)编号").matcher(baseMsg);
+                Matcher ma = compile("信息更新日期(.*?)编号").matcher(baseMsg);
                 if (ma.find()) {
                     String s1 = ma.group(1).trim();
                     String ss[] = s1.split(" +");
@@ -209,7 +226,7 @@ public class PdfboxUtil {
                     }
                 }
                 //居住信息数据
-                Matcher mb = Pattern.compile("数据发生机构名称(.*?)职业信息").matcher(baseMsg);
+                Matcher mb = compile("数据发生机构名称(.*?)职业信息").matcher(baseMsg);
                 if (mb.find()) {
                     String s2 = mb.group(1).replaceAll("数据发生机构名称", "").trim();
                     String ss[] = s2.split(" +");
@@ -219,7 +236,7 @@ public class PdfboxUtil {
                         for (int i = 0; i < ss.length ; i=i+2) {
                             HouseData house =new HouseData();
                             house.setNo(ss[i]);
-                            house.setNo(ss[i+1]);
+                            house.setData(ss[i+1]);
                             la.add(house);
                         }
                         baseData.setHouseDatas(la);
@@ -229,19 +246,36 @@ public class PdfboxUtil {
                     }
                 }
                 //工作信息1
-                Matcher mc = Pattern.compile("单位地址(.*?)编号").matcher(baseMsg);
+                Matcher mc = compile("单位地址(.*?)编号").matcher(baseMsg);
                 if (mc.find()) {
                     String s1 = mc.group(1).trim();
-                    String ss[] = s1.split(" ");
                     String ss1[] = s1.split(" +");
                     //编号
                     List la = new ArrayList();
                     try {
-                        for (int i = 1; i < ss.length-1 ; i=i+4) {
+                        List<Integer> ll = new ArrayList();
+                        for (int j = 0; j <ss1.length ; j++) {
+                            if(ss1[j].replaceAll(" ","").trim().matches("[0-9]{1}")){
+                               ll.add(j);
+                            }
+                        }
+                        for (int l = 0; l < ll.size(); l++) {
                             Work work = new Work();
-                            work.setNo(ss[i]);
-                            work.setWork(ss[i+1]);
-                            work.setWorkAddress(ss[i+3]);
+                            work.setNo(ss1[ll.get(l)]);
+                            work.setWork(ss1[ll.get(l)+1]);
+                            int num = 1;
+                            if(l<ll.size()-1){
+                                num = ll.get(l+1)-ll.get(l)-2;
+                            }
+                            String workms = "";
+                            while(num >=1){
+                                workms+=ss1[ll.get(l)+1+num];
+                                if(num == 1){
+                                    break;
+                                }
+                                num --;
+                            }
+                            work.setWorkAddress(workms);
                             la.add(work);
                         }
                         base.setWorks(la);
@@ -251,46 +285,64 @@ public class PdfboxUtil {
                     }
                 }
                 //工作信息2
-                Matcher md = Pattern.compile("信息更新日期(.*?)编号").matcher(baseMsg);
-                if (md.find()) {
-                   /* String s1 = md.group(1).trim();
-                    String ss[] = s1.split("  ");
-                    //编号
+                Matcher md1 = compile("编号 职业 行业 职务 职称进入本单位年份 信息更新日期(.*?)编号 数据发生机构名称").matcher(content0);
+                if(md1.find()){
+                    String s1 = md1.group(1).trim();
+                    String ss[] = s1.split(" +");
                     List la = base.getWorks();
-                    int flag=0;*/
                     try {
-                        /*for (int i = 0; i < ss.length ; i=i+3) {
-                            Work work =(Work)la.get(flag);
-                            work.setProfession(ss[i+1]);
-                            String ss1[] = ss[i+2].split(" ");
-                            if(ss1.length>5){
-                                work.setUpdateTime(ss1[ss1.length-1]);
-                                work.setWorkAddress(ss1[ss1.length-2]);
-                                work.setTitle(ss1[ss1.length-3]);
-                                String duty = "";
-                                for (int j = 1; j < ss1.length-4; j++) {
-                                    duty+=ss1[j];
-                                }
-                                work.setDuty(duty);
-                                work.setBusiness(ss1[0]);
+                        List<Integer> ll = new ArrayList();
+                        for (int i = 0; i < ss.length ; i++) {
+                            if(ss[i].replaceAll(" ","").trim().matches("[0-9]{1}")){
+                                ll.add(i);
                             }
-                            flag++;
-                        }*/
-                       // base.setWorks(la);
-                        //baseMsg = baseMsg.split(md.group(1))[1];
+                        }
+                        for (int j = 0; j < ll.size(); j++) {
+                            Work work = (Work) la.get(j);
+                            ll.get(j);
+                            work.setProfession(ss[ll.get(j)+1]);
+                            work.setBusiness(ss[ll.get(j)+2]);//private String business;
+                            work.setDuty(ss[ll.get(j)+3]);//private String duty;
+                            work.setTitle(ss[ll.get(j)+4]);// private String title;
+                            work.setWorkTime(ss[ll.get(j)+5]);//private String workTime;
+                            work.setUpdateTime(ss[ll.get(j)+6]);//private String updateTime;
+                            la.set(j,work);
+                        }
+                        base.setWorks(la);
                     } catch (ArrayIndexOutOfBoundsException e) {
                         e.printStackTrace();
                     } catch (IndexOutOfBoundsException e) {
                         e.printStackTrace();
                     }
                 }
-
+                //居住信息数据
+                Matcher me = compile("数据发生机构名称(.*?)二").matcher(baseMsg);
+                if (me.find()) {
+                    String s2 = me.group(1).replaceAll("数据发生机构名称", "").trim();
+                    String ss[] = s2.split(" +");
+                    //编号
+                    List la = new ArrayList();
+                    try {
+                        for (int i = 0; i < ss.length ; i=i+2) {
+                            WorkData workData =new WorkData();
+                            workData.setNo(ss[i]);
+                            workData.setData(ss[i+1]);
+                            la.add(workData);
+                        }
+                        baseData.setWorkDatas(la);
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
+            /**
+             * 二 信息概要
+             */
             SumMsg sum = new SumMsg();
             if(sumMsg!=null){
-                Matcher m1 = Pattern.compile("异议标注 数目(.*?)授信及负债信息概要").matcher(sumMsg);
+                Matcher m1 = compile("异议标注 数目(.*?)授信及负债信息概要").matcher(sumMsg);
                 if(sumMsg.indexOf("逾期及违约信息概要")>=0){
-                    m1 = Pattern.compile("异议标注 数目(.*?)逾期及违约信息概要").matcher(sumMsg);
+                    m1 = compile("异议标注 数目(.*?)逾期及违约信息概要").matcher(sumMsg);
                 }
                 //信用提示
                 Tips tips = new Tips();
@@ -317,7 +369,7 @@ public class PdfboxUtil {
                 }
                 sum.setTips(tips);
                 if(sumMsg.indexOf("逾期及违约信息概要")>=0){
-                    Matcher m2 = Pattern.compile("最长透支 月数(.*?)授信及负债信息概要").matcher(sumMsg);
+                    Matcher m2 = compile("最长透支 月数(.*?)授信及负债信息概要").matcher(sumMsg);
                     Overdue overdue = new Overdue();
                     if (m2.find()) {
                         String s1 = m2.group(1).trim();
@@ -344,7 +396,7 @@ public class PdfboxUtil {
                         sum.setOverdue(overdue);
                     }
                 }
-                Matcher m3 = Pattern.compile("最近6个月平均应 还款(.*?)未销户贷记卡信息汇总").matcher(sumMsg);
+                Matcher m3 = compile("最近6个月平均应 还款(.*?)未销户贷记卡信息汇总").matcher(sumMsg);
                 //授信及负债信息概要
                 Credit credit = new Credit();
                 if (m3.find()) {
@@ -364,7 +416,7 @@ public class PdfboxUtil {
                         }
                     }
                 }
-                Matcher m4 = Pattern.compile("最近6个月平均使 用额度(.*?)三").matcher(sumMsg);
+                Matcher m4 = compile("最近6个月平均使 用额度(.*?)三").matcher(sumMsg);
                 if (m4.find()) {
                     String s1 = m4.group(1).trim();
                     String ss[] = s1.split(" +");
@@ -391,13 +443,14 @@ public class PdfboxUtil {
             CreditMsg creditMsg1 = new CreditMsg();
             if(creditMsg!=null){
                 List<Loans> loansList = new ArrayList<>();
-                Matcher ma = Pattern.compile("贷款 +(.*?)贷记卡 +").matcher(creditMsg);
+                Matcher ma = compile("贷款 +(.*?)贷记卡 +").matcher(creditMsg);
                 if(ma.find()){
                     String dai = ma.group(1).trim();
+                    creditMsg = creditMsg.substring(creditMsg.indexOf("贷记卡")+3);
                     if(dai!=null){
                         while (true){
                             Loans loans = new Loans();
-                            Matcher m1 = Pattern.compile("(.*?)账户状态").matcher(dai);
+                            Matcher m1 = compile("(.*?)账户状态").matcher(dai);
                             boolean flag = true;
                             if (m1.find()) {
                                 flag = false;
@@ -405,7 +458,7 @@ public class PdfboxUtil {
                                 loans.setMessage(s1);
                                 dai = dai.split(m1.group(1))[1];
                             }
-                            Matcher m2 = Pattern.compile("最近一次还款 日期(.*?)当前逾期期 数").matcher(dai);
+                            Matcher m2 = compile("最近一次还款 日期(.*?)当前逾期期 数").matcher(dai);
                             if (m2.find()) {
                                 flag = false;
                                 String s1 = m2.group(1).trim();
@@ -426,7 +479,7 @@ public class PdfboxUtil {
                                     }
                                 }
                             }
-                            Matcher m3 = Pattern.compile("逾期180天以上未还本金(.*?)还款记录").matcher(dai);
+                            Matcher m3 = compile("逾期180天以上未还本金(.*?)还款记录").matcher(dai);
                             if (m3.find()) {
                                 flag = false;
                                 String s1 = m3.group(1).trim();
@@ -445,7 +498,7 @@ public class PdfboxUtil {
                                     }
                                 }
                             }
-                            Matcher m4 = Pattern.compile("还款记录(.*?) ").matcher(dai);
+                            Matcher m4 = compile("还款记录(.*?) ").matcher(dai);
                             if (m4.find()) {
                                 flag = false;
                                 String s1 = m4.group(1).trim();
@@ -468,24 +521,216 @@ public class PdfboxUtil {
                 }
                 creditMsg1.setLoans(loansList);
                 List<Card> cardsList = new ArrayList<>();
-                Matcher mb = Pattern.compile("贷款 +(.*?)贷记卡 +").matcher(creditMsg);
-                if(mb.find()){
-                    String card = mb.group(1).trim();
+                while (true){
+                    Card card = new Card();
+                    Matcher m1 = compile("(.*?)账户状态 ").matcher(creditMsg);
+                    boolean flag = true;
+                    if (m1.find()) {
+                        flag = false;
+                        String s1 = m1.group(1).trim();
+                        card.setMessage(s1);
+                        creditMsg = creditMsg.split(m1.group(1))[1];
+                    }
+                    Matcher m2 = compile("本月应还款(.*?)账单日").matcher(creditMsg);
+                    if (m2.find()) {
+                        flag = false;
+                        String s1 = m2.group(1).trim();
+                        String ss[] = s1.split(" +");
+                        if (ss.length != 0) {
+                            try {
+                                card.setStatus(ss[0]);//账户状态
+                                card.setUsed(ss[1]);//已用额度
+                                card.setUsed6(ss[2]);//最近6个月平均使用额度
+                                card.setUsedMax(ss[3]);//最大使用额度
+                                card.setThisMonth(ss[4]);//本月应还款
+                                creditMsg = creditMsg.substring(creditMsg.indexOf(s1)+s1.length());
+                            } catch (ArrayIndexOutOfBoundsException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                    Matcher m3 = compile("当前逾期金额(.*?)还款记录").matcher(creditMsg);
+                    if (m3.find()) {
+                        flag = false;
+                        String s1 = m3.group(1).trim();
+                        String ss[] = s1.split(" +");
+                        if (ss.length != 0) {
+                            try {
+                                card.setPayTime(ss[0]);//账单日
+                                card.setPayMonth(ss[1]);//本月实还款
+                                card.setPayLast(ss[2]);
+                                card.setOverdueNum(ss[3]);
+                                card.setOverdue(ss[4]);
+                                creditMsg = creditMsg.split(m3.group(1))[1];
+                            } catch (ArrayIndexOutOfBoundsException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                    Matcher m4 = compile("还款记录(.*?) ").matcher(creditMsg);
+                    if (m4.find()) {
+                        flag = false;
+                        String s1 = m4.group(1).trim();
+                        String ss[] = s1.split(" +");
+                        if (ss.length != 0) {
+                            try {
+                                card.setRecord(s1);
+                                creditMsg = creditMsg.substring(creditMsg.indexOf(s1)+s1.length());
+                            } catch (ArrayIndexOutOfBoundsException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                    if(!flag){
+                        cardsList.add(card);
+                    }
+                    if(flag){
+                        creditMsg = creditMsg.replaceAll(" ","");
+                        System.out.println();
+                        if(creditMsg.length()!=0){
+                            String[] ss0 = creditMsg.split(" +");
+                            for(String s0:ss0){
+                                Card card1 = new Card();
+                                card1.setMessage(s0);
+                                cardsList.add(card1);
+                            }
+                        }
+                        break;
+                    }
+                }
+                creditMsg1.setCards(cardsList);
+            }
+            /**
+             * 四 公共信息明细
+             */
+            CommonMsg commonMsg1 = new CommonMsg();
+            if(commonMsg!=null){
+                Matcher m1 = compile("单位缴存比例(.*?)编号").matcher(commonMsg);
+                if (m1.find()) {
+                    List ll = new ArrayList();
+                    String s1 = m1.group(1).trim();
+                    String ss[] = s1.split(" +");
+                    try {
+                        for (int i = 0; i <ss.length ; i=i+9) {
+                            PayRecord payRecord = new PayRecord();
+                            payRecord.setNo(ss[i]);
+                            payRecord.setPlace(ss[i+1]);
+                            payRecord.setDate1(ss[i+2]);
+                            payRecord.setDate2(ss[i+3]);
+                            payRecord.setDate3(ss[i+4]);
+                            payRecord.setStatus(ss[i+5]);
+                            payRecord.setPayMonth(ss[i+6]);
+                            payRecord.setPersonScale(ss[i+7]);
+                            payRecord.setComScale(ss[i+8]);
+                            ll.add(payRecord);
+                        }
+                        commonMsg1.setPayRecords(ll);
+                    }catch (ArrayIndexOutOfBoundsException e){
+                        e.printStackTrace();
+                    }
+                    commonMsg =commonMsg.substring(commonMsg.indexOf(s1)+s1.length());
+                }
+                Matcher m2 = compile("信息更新日期(.*?)").matcher(commonMsg);
+                if (m2.find()){
+                    List ll = new ArrayList();
+                    String s1 = m1.group(1).trim();
+                    String ss[] = s1.split(" +");
+                    try {
+                        for (int i = 0; i <ss.length ; i=i+3) {
+                            PayCompany payCompany = new PayCompany();
+                            payCompany.setNo(ss[i]);
+                            payCompany.setCompany(ss[i+1]);
+                            payCompany.setUpdateDate(ss[i+2]);
+                            ll.add(payCompany);
+                        }
+                    }catch (ArrayIndexOutOfBoundsException e){
+                        e.printStackTrace();
+                    }
+                    commonMsg1.setPayCompanies(ll);
                 }
             }
+            /**
+             * 五 查询记录
+             */
+            QueryMsg queryMsg1 = new QueryMsg();
+            if(queryMsg!=null){
+                Matcher m1 = compile("审查(.*?)机构查询记录明细").matcher(queryMsg);
+                if (m1.find()) {
+                    String s1 = m1.group(1).trim();
+                    String ss[] = s1.split(" +");
+                    try {
+                        queryMsg1.setLoans(ss[0]);
+                        queryMsg1.setCard(ss[1]);
+                        queryMsg1.setLoansNum(ss[2]);
+                        queryMsg1.setCardNum(ss[3]);
+                        queryMsg1.setPersonNum(ss[4]);
+                        queryMsg1.setManagement(ss[5]);
+                        queryMsg1.setGuarantee(ss[6]);
+                        queryMsg1.setSpecial(ss[7]);
+                        queryMsg =queryMsg.substring(queryMsg.indexOf(s1)+s1.length());
+                    }catch (ArrayIndexOutOfBoundsException e){
+                        e.printStackTrace();
+                    }
+                }
+                Matcher m2 = compile("查询原因(.*?)本人查询记录明细").matcher(queryMsg);
+                if (m2.find()) {
+                    String s1 = m2.group(1).trim();
+                    String ss[] = s1.split(" +");
+                    List<QueryCom> company = new ArrayList<>();
+                    try {
+                        for (int i = 0; i < ss.length; i=i+4) {
+                            QueryCom queryCom = new QueryCom();
+                            queryCom.setNo(ss[i]);
+                            queryCom.setQueryTime(ss[i+1]);
+                            queryCom.setOperator(ss[i+2]);
+                            queryCom.setReason(ss[i+3]);
+                            company.add(queryCom);
+                        }
+                        queryMsg =queryMsg.substring(queryMsg.indexOf(s1)+s1.length());
+                        if(company.size()!=0){
+                            queryMsg1.setCompany(company);
+                        }
+                    }catch (ArrayIndexOutOfBoundsException e){
+                        e.printStackTrace();
+                    }
+                }
+                if (queryMsg.trim().length()!=0) {
+                    String s1 =queryMsg.substring(queryMsg.indexOf("查询原因")+"查询原因".length()).trim();
+                    String ss[] = s1.split(" +");
+                    List<QueryCom> person = new ArrayList<>();
+                    try {
+                        for (int i = 0; i < ss.length; i=i+4) {
+                            QueryCom queryCom = new QueryCom();
+                            queryCom.setNo(ss[i]);
+                            queryCom.setQueryTime(ss[i+1]);
+                            queryCom.setOperator(ss[i+2]);
+                            queryCom.setReason(ss[i+3]);
+                            person.add(queryCom);
+                        }
+                        if(person.size()!=0){
+                            queryMsg1.setPerson(person);
+                        }
+                    }catch (ArrayIndexOutOfBoundsException e){
+                        e.printStackTrace();
+                    }
+                }
 
+            }
 
             msg.setBaseMsg(base);
             msg.setBaseMsgData(baseData);
             msg.setSumMsg(sum);
             msg.setCreditMsg(creditMsg1);
+            msg.setCommonMsg(commonMsg1);
+            msg.setQueryMsg(queryMsg1);
             String jsonStr = JSON.toJSONString(msg);
             System.out.println(jsonStr);
             System.out.println("=================================");
-            //System.out.println(baseMsg);
+            System.out.println(baseMsg);
             //System.out.println(sumMsg);
-            System.out.println(creditMsg);
-
+            //System.out.println(creditMsg);
+           // System.out.println(commonMsg);
+            // System.out.println(queryMsg);
         } catch (Exception e) {
             e.printStackTrace();
         }

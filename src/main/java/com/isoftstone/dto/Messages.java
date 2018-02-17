@@ -9,6 +9,8 @@ import com.isoftstone.dto.msg1.BaseMsg;
 import com.isoftstone.dto.msg1.BaseMsgData;
 import com.isoftstone.dto.msg2.SumMsg;
 import com.isoftstone.dto.msg3.CreditMsg;
+import com.isoftstone.dto.msg4.CommonMsg;
+import com.isoftstone.dto.msg5.QueryMsg;
 
 public class Messages {
     private String reportNo;//报告编号
@@ -24,6 +26,24 @@ public class Messages {
     private BaseMsgData baseMsgData;//数据发生机构
     private SumMsg sumMsg;//信息概要
     private CreditMsg creditMsg;//信贷交易信息明细
+    private CommonMsg commonMsg;//四 公共信息明细
+    private QueryMsg queryMsg;//查询记录
+
+    public QueryMsg getQueryMsg() {
+        return queryMsg;
+    }
+
+    public void setQueryMsg(QueryMsg queryMsg) {
+        this.queryMsg = queryMsg;
+    }
+
+    public CommonMsg getCommonMsg() {
+        return commonMsg;
+    }
+
+    public void setCommonMsg(CommonMsg commonMsg) {
+        this.commonMsg = commonMsg;
+    }
 
     public CreditMsg getCreditMsg() {
         return creditMsg;
