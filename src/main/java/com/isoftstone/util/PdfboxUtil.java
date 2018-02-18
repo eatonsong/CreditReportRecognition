@@ -37,15 +37,12 @@ public class PdfboxUtil {
 
 
     PDDocument document;
-
-    public static void main(String[] args) {
-        String pdfPath = "src/main/resources/pdf/001.pdf";
-        String txtfilePath = "src/main/resources/output/test.txt";
-        PdfboxUtil pdfutil = new PdfboxUtil();
+    public Messages getMessages(String pdfPath){
+        //String pdfPath = "src/main/resources/pdf/001.pdf";
         try {
-            pdfutil.getDocument(pdfPath);
-            Messages msg = pdfutil.getTextByArea();
-            String content = pdfutil.getTextFromPdf();
+            this.getDocument(pdfPath);
+            Messages msg = this.getTextByArea();
+            String content = this.getTextFromPdf();
             String regex1 = ".*(页码.*\r\n).*";
             String regex2 = ".*(Page.*\r\n).*";
             content = content.replaceAll(regex1, "");
@@ -416,7 +413,8 @@ public class PdfboxUtil {
                         }
                     }
                 }
-                Matcher m4 = compile("最近6个月平均使 用额度(.*?)三").matcher(sumMsg);
+                System.out.println(sumMsg);
+                Matcher m4 = compile("最近6个月平均使 用额度(.*)").matcher(sumMsg);
                 if (m4.find()) {
                     String s1 = m4.group(1).trim();
                     String ss[] = s1.split(" +");
@@ -511,6 +509,9 @@ public class PdfboxUtil {
                                         e.printStackTrace();
                                     }
                                 }
+                            }else if (flag == false){
+                                loans.setRecord(dai.replaceAll("还款记录",""));
+                                flag = true;
                             }
                             loansList.add(loans);
                             if(flag){
@@ -567,7 +568,7 @@ public class PdfboxUtil {
                             }
                         }
                     }
-                    Matcher m4 = compile("还款记录(.*?) ").matcher(creditMsg);
+                    Matcher m4 = compile("还款记录(.*?)[1-9]+\\.").matcher(creditMsg);
                     if (m4.find()) {
                         flag = false;
                         String s1 = m4.group(1).trim();
@@ -580,19 +581,23 @@ public class PdfboxUtil {
                                 e.printStackTrace();
                             }
                         }
+                    }else if (flag == false){
+                        if (creditMsg.length()<20){
+                            card.setRecord(creditMsg.replaceAll("还款记录",""));
+                        }
                     }
                     if(!flag){
                         cardsList.add(card);
-                    }
-                    if(flag){
+                    }else{
                         creditMsg = creditMsg.replaceAll(" ","");
-                        System.out.println();
                         if(creditMsg.length()!=0){
-                            String[] ss0 = creditMsg.split(" +");
+                            String[] ss0 = creditMsg.split("[1-9]+\\.");
                             for(String s0:ss0){
-                                Card card1 = new Card();
-                                card1.setMessage(s0);
-                                cardsList.add(card1);
+                                if(!"".equals(s0)){
+                                    Card card1 = new Card();
+                                    card1.setMessage(s0);
+                                    cardsList.add(card1);
+                                }
                             }
                         }
                         break;
@@ -630,13 +635,13 @@ public class PdfboxUtil {
                     }
                     commonMsg =commonMsg.substring(commonMsg.indexOf(s1)+s1.length());
                 }
-                Matcher m2 = compile("信息更新日期(.*?)").matcher(commonMsg);
+                Matcher m2 = compile("信息更新日期(.*)").matcher(commonMsg);
                 if (m2.find()){
                     List ll = new ArrayList();
-                    String s1 = m1.group(1).trim();
+                    String s1 = m2.group(1).trim();
                     String ss[] = s1.split(" +");
                     try {
-                        for (int i = 0; i <ss.length ; i=i+3) {
+                        for (int i = 0; i <ss.length/3*3 ; i=i+3) {
                             PayCompany payCompany = new PayCompany();
                             payCompany.setNo(ss[i]);
                             payCompany.setCompany(ss[i+1]);
@@ -716,17 +721,15 @@ public class PdfboxUtil {
                 }
 
             }
-
             msg.setBaseMsg(base);
             msg.setBaseMsgData(baseData);
             msg.setSumMsg(sum);
             msg.setCreditMsg(creditMsg1);
             msg.setCommonMsg(commonMsg1);
             msg.setQueryMsg(queryMsg1);
-            String jsonStr = JSON.toJSONString(msg);
-            System.out.println(jsonStr);
             System.out.println("=================================");
-            System.out.println(baseMsg);
+            return msg;
+            //System.out.println(baseMsg);
             //System.out.println(sumMsg);
             //System.out.println(creditMsg);
            // System.out.println(commonMsg);
@@ -734,6 +737,7 @@ public class PdfboxUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     public void getDocument(String pdfPath) {
@@ -794,11 +798,11 @@ public class PdfboxUtil {
             String reportNo = stripper1.getTextForRegion("reportNo").replaceAll("\r|\n", "");
             String requestTime = stripper1.getTextForRegion("requestTime").replaceAll("\r|\n", "");
             String reportTime = stripper1.getTextForRegion("reportTime").replaceAll("\r|\n", "");
-            String name = stripper1.getTextForRegion("name");
-            String idtype = stripper1.getTextForRegion("idtype");
-            String idcard = stripper1.getTextForRegion("idcard");
-            String operator = stripper1.getTextForRegion("operator");
-            String reason = stripper1.getTextForRegion("reason");
+            String name = stripper1.getTextForRegion("name").replaceAll("\r|\n", "");
+            String idtype = stripper1.getTextForRegion("idtype").replaceAll("\r|\n", "");
+            String idcard = stripper1.getTextForRegion("idcard").replaceAll("\r|\n", "");
+            String operator = stripper1.getTextForRegion("operator").replaceAll("\r|\n", "");
+            String reason = stripper1.getTextForRegion("reason").replaceAll("\r|\n", "");
             msg.setReportNo(reportNo);
             msg.setRequestTime(requestTime);
             msg.setReportTime(reportTime);
