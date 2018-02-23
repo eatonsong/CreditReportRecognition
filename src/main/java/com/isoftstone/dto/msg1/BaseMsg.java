@@ -10,6 +10,7 @@ import java.util.List;
 
 public class BaseMsg implements Serializable{
 
+    private static final long serialVersionUID = -8775506495510150770L;
     //性别 出生日期 婚姻状况 手机号码
     private String gender;
     private String birthday;

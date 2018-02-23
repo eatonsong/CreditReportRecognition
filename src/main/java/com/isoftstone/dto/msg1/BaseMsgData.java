@@ -5,9 +5,11 @@ package com.isoftstone.dto.msg1;/*
  * 数据发生机构名称
  */
 
+import java.io.Serializable;
 import java.util.List;
 
-public class BaseMsgData {
+public class BaseMsgData  implements Serializable {
+    private static final long serialVersionUID = 72134583230307966L;
     //性别 出生日期 婚姻状况 手机号码
     private String gender;
     private String birthday;

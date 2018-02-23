@@ -1,9 +1,12 @@
 package com.isoftstone.dto.msg2;
 
+import java.io.Serializable;
+
 /**
  * 授信及负债信息概要
  */
-public class UnpaidLoan {
+public class UnpaidLoan  implements Serializable {
+    private static final long serialVersionUID = 3860050959151948613L;
     //贷款法人机构数 贷款机构数 笔数 合同总额 余额 最近6个月平均应还款
     private String financecorpCount;
     private String financeorgCount;

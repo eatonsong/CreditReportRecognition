@@ -1,6 +1,9 @@
 package com.isoftstone.dto.msg1;
 
-public class Professional {
+import java.io.Serializable;
+
+public class Professional  implements Serializable {
+    private static final long serialVersionUID = 4932996329705242782L;
     //工作单位 单位地址 职业 行业 职务 职称 进入本单位年份 信息更新日期
     private String sortno;
     private String employer;

@@ -1,9 +1,12 @@
 package com.isoftstone.dto.msg3;
 
+import java.io.Serializable;
+
 /**
  * 贷款
  */
-public class LoanInfo {
+public class LoanInfo  implements Serializable {
+    private static final long serialVersionUID = 8106619325633628093L;
     private String message;//信息
     //账户状态 五级分类 本金余额 剩余还款期数 本月应还款 应还款日 本月实还款 最近一次还款日期
     private String loanacctState;//账户状态

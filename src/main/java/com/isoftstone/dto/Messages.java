@@ -12,7 +12,10 @@ import com.isoftstone.dto.msg3.CreditMsg;
 import com.isoftstone.dto.msg4.CommonMsg;
 import com.isoftstone.dto.msg5.RecordSummary;
 
-public class Messages  {
+import java.io.Serializable;
+
+public class Messages  implements Serializable{
+    private static final long serialVersionUID = 7087117012816485185L;
     private String reportNo;//报告编号
     private String queryTime;//查询请求时间
     private String reportCreateTime;//报告时间

@@ -3,8 +3,12 @@ package com.isoftstone.dto.msg2;/*
  * @date 2018/2/23 11:36  
  * @user Eaton
  */
+
+import java.io.Serializable;
+
 //未销户贷记卡信息汇总
-public class UndestoryLoancard {
+public class UndestoryLoancard  implements Serializable {
+    private static final long serialVersionUID = -969713014467087858L;
     //发卡法人机构数  发卡机构数 账户数 授信总额 单家行最高授信额 单家行最低授信额 已用额度 最近6个月平均使用额度
     private String financecorpCount;
     private String financeorgCount;

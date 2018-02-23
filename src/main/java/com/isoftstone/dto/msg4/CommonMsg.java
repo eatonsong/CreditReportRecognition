@@ -4,9 +4,11 @@ package com.isoftstone.dto.msg4;/*
  * @user Eaton
  */
 
+import java.io.Serializable;
 import java.util.List;
 
-public class CommonMsg {
+public class CommonMsg  implements Serializable {
+    private static final long serialVersionUID = 2368166455928847821L;
     private List<AccfundRecord> accfundRecords;
     private List<AccfundCompany> payCompanies;
 

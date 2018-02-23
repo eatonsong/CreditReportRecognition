@@ -4,7 +4,10 @@ package com.isoftstone.dto.msg1;/*
  * @user Eaton
  */
 
-public class Spouse {
+import java.io.Serializable;
+
+public class Spouse  implements Serializable {
+    private static final long serialVersionUID = -8801286129172189218L;
     //姓名 证件类型 证件号码 工作单位 联系电话 配偶
     private String name;
     private String certtype;

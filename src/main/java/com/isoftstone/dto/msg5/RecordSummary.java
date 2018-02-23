@@ -4,13 +4,16 @@ package com.isoftstone.dto.msg5;/*
  * @user Eaton
  */
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * 查询记录
  */
-public class RecordSummary {
-   // 贷款审批 信用卡审批 (最近1个月内的查询机构数)
+public class RecordSummary  implements Serializable {
+
+    private static final long serialVersionUID = -8012218628786649932L;
+    // 贷款审批 信用卡审批 (最近1个月内的查询机构数)
    // 贷款审批 信用卡审批 本人查询 (最近1个月内的查询次数)
    // 贷后管理 担保资格审查 特约商户实名审查 (最近2年内的查询次数)
     private String orgsum1;

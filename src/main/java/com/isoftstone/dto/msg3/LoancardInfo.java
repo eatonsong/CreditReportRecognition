@@ -1,9 +1,12 @@
 package com.isoftstone.dto.msg3;
 
+import java.io.Serializable;
+
 /**
  * 贷记卡
  */
-public class LoancardInfo {
+public class LoancardInfo  implements Serializable {
+    private static final long serialVersionUID = -2359208043224001842L;
     private String message;//信息
     //账户状态 已用额度 最近6个月平均使用额度 最大使用额度 本月应还款
     private String loanacctState;//账户状态

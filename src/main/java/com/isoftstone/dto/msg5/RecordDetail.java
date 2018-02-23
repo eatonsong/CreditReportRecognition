@@ -4,10 +4,13 @@ package com.isoftstone.dto.msg5;/*
  * @user Eaton
  */
 
+import java.io.Serializable;
+
 /**
  * 查询明细
  */
-public class RecordDetail {
+public class RecordDetail  implements Serializable {
+    private static final long serialVersionUID = 2991797714672196469L;
     //编号 查询日期 查询操作员 查询原因
     private String no;
     private String queryDate;

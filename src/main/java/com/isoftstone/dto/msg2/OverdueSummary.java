@@ -1,9 +1,12 @@
 package com.isoftstone.dto.msg2;
 
+import java.io.Serializable;
+
 /**
  * 逾期及违约信息概要
  */
-public class OverdueSummary {
+public class OverdueSummary  implements Serializable {
+    private static final long serialVersionUID = -3934499073636328294L;
     //贷款
     // 笔数 月份数 单月最高逾期总额 最长逾期月数
     private String count;

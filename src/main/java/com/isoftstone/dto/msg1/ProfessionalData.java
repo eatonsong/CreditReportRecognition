@@ -1,6 +1,9 @@
 package com.isoftstone.dto.msg1;
 
-public class ProfessionalData {
+import java.io.Serializable;
+
+public class ProfessionalData  implements Serializable {
+    private static final long serialVersionUID = -5327964427820281777L;
     private String no;
     private String data;
 

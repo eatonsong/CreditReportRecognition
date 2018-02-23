@@ -1,9 +1,12 @@
 package com.isoftstone.dto.msg2;
 
+import java.io.Serializable;
+
 /**
  * 信息概要
  */
-public class SumMsg {
+public class SumMsg  implements Serializable {
+    private static final long serialVersionUID = -8552405052663364351L;
     private Creditcue creditcue;
     private OverdueSummary overdueSummary;
     private UnpaidLoan unpaidLoan;

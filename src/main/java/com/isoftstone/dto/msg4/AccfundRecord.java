@@ -4,7 +4,10 @@ package com.isoftstone.dto.msg4;/*
  * @user Eaton
  */
 
-public class AccfundRecord {
+import java.io.Serializable;
+
+public class AccfundRecord  implements Serializable {
+    private static final long serialVersionUID = -6643883479458712945L;
     //编号 参缴地 参缴日期 初缴月份 缴至月份 缴费状态 月缴存额 个人缴存比例 单位缴存比例
     private String no;
     private String area;

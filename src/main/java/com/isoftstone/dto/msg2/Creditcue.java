@@ -1,9 +1,12 @@
 package com.isoftstone.dto.msg2;
 
+import java.io.Serializable;
+
 /**
  * 信用提示
  */
-public class Creditcue {
+public class Creditcue  implements Serializable {
+    private static final long serialVersionUID = -5673753132022108427L;
     //个人住房贷款笔数
     //个人商用房（包括商住两用）贷款笔数
     //其他贷款笔数

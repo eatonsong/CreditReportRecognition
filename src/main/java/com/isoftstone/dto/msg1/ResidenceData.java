@@ -1,9 +1,12 @@
 package com.isoftstone.dto.msg1;
 
+import java.io.Serializable;
+
 /**
  * 居住信息数据发生机构名称
  */
-public class ResidenceData {
+public class ResidenceData  implements Serializable {
+    private static final long serialVersionUID = 1766649907471563613L;
     private String no;
     private String data;
 

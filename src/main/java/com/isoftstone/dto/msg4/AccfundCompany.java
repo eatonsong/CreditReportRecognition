@@ -4,7 +4,10 @@ package com.isoftstone.dto.msg4;/*
  * @user Eaton
  */
 
-public class AccfundCompany {
+import java.io.Serializable;
+
+public class AccfundCompany  implements Serializable {
+    private static final long serialVersionUID = -5593526789671036128L;
     //缴费单位 信息更新日期
     private String no;
     private String organname;
