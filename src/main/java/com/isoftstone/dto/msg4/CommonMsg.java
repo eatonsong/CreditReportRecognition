@@ -7,22 +7,22 @@ package com.isoftstone.dto.msg4;/*
 import java.util.List;
 
 public class CommonMsg {
-    private List<PayRecord> payRecords;
-    private List<PayCompany> payCompanies;
+    private List<AccfundRecord> accfundRecords;
+    private List<AccfundCompany> payCompanies;
 
-    public List<PayRecord> getPayRecords() {
-        return payRecords;
+    public List<AccfundRecord> getAccfundRecords() {
+        return accfundRecords;
     }
 
-    public List<PayCompany> getPayCompanies() {
+    public List<AccfundCompany> getPayCompanies() {
         return payCompanies;
     }
 
-    public void setPayCompanies(List<PayCompany> payCompanies) {
+    public void setPayCompanies(List<AccfundCompany> payCompanies) {
         this.payCompanies = payCompanies;
     }
 
-    public void setPayRecords(List<PayRecord> payRecords) {
-        this.payRecords = payRecords;
+    public void setAccfundRecords(List<AccfundRecord> accfundRecords) {
+        this.accfundRecords = accfundRecords;
     }
 }

@@ -1,6 +1,6 @@
 package com.isoftstone.dto.msg1;
 
-public class WorkData {
+public class ProfessionalData {
     private String no;
     private String data;
 

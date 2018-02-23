@@ -6,22 +6,22 @@ import java.util.List;
  * 信贷交易信息明细
  */
 public class CreditMsg {
-    private List<Card> cards;
-    private List<Loans> loans;
+    private List<LoancardInfo> loancardInfos;
+    private List<LoanInfo> loans;
 
-    public List<Card> getCards() {
-        return cards;
+    public List<LoancardInfo> getLoancardInfos() {
+        return loancardInfos;
     }
 
-    public void setCards(List<Card> cards) {
-        this.cards = cards;
+    public void setLoancardInfos(List<LoancardInfo> loancardInfos) {
+        this.loancardInfos = loancardInfos;
     }
 
-    public List<Loans> getLoans() {
+    public List<LoanInfo> getLoans() {
         return loans;
     }
 
-    public void setLoans(List<Loans> loans) {
+    public void setLoans(List<LoanInfo> loans) {
         this.loans = loans;
     }
 }

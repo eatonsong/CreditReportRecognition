@@ -4,21 +4,17 @@ package com.isoftstone.util;
  * @date 2018/2/11 14:52
  * @user Eaton*/
 
-import com.alibaba.fastjson.JSON;
 import com.isoftstone.dto.*;
 import com.isoftstone.dto.msg1.*;
-import com.isoftstone.dto.msg2.Credit;
-import com.isoftstone.dto.msg2.Overdue;
-import com.isoftstone.dto.msg2.SumMsg;
-import com.isoftstone.dto.msg2.Tips;
-import com.isoftstone.dto.msg3.Card;
+import com.isoftstone.dto.msg2.*;
+import com.isoftstone.dto.msg3.LoancardInfo;
 import com.isoftstone.dto.msg3.CreditMsg;
-import com.isoftstone.dto.msg3.Loans;
+import com.isoftstone.dto.msg3.LoanInfo;
 import com.isoftstone.dto.msg4.CommonMsg;
-import com.isoftstone.dto.msg4.PayCompany;
-import com.isoftstone.dto.msg4.PayRecord;
-import com.isoftstone.dto.msg5.QueryMsg;
-import com.isoftstone.dto.msg5.QueryCom;
+import com.isoftstone.dto.msg4.AccfundCompany;
+import com.isoftstone.dto.msg4.AccfundRecord;
+import com.isoftstone.dto.msg5.RecordSummary;
+import com.isoftstone.dto.msg5.RecordDetail;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.encryption.InvalidPasswordException;
@@ -85,10 +81,10 @@ public class PdfboxUtil {
                     String ss[] = s1.split(" +");
                     if (ss.length != 0) {
                         try {
-                            base.setSex(ss[0]);
-                            base.setBirth(ss[1]);
-                            base.setMerry(ss[2]);
-                            base.setTelphone(ss[3]);
+                            base.setGender(ss[0]);
+                            base.setBirthday(ss[1]);
+                            base.setMaritalstate(ss[2]);
+                            base.setMobile(ss[3]);
                             baseMsg = baseMsg.split(m1.group(1))[1];
                         } catch (ArrayIndexOutOfBoundsException e) {
                             e.printStackTrace();
@@ -101,10 +97,10 @@ public class PdfboxUtil {
                     String ss[] = s2.split(" +");
                     if (ss.length != 0) {
                         try {
-                            baseData.setSex(ss[0]);
-                            baseData.setBirth(ss[1]);
-                            baseData.setMerry(ss[2]);
-                            baseData.setTelphone(ss[3]);
+                            baseData.setGender(ss[0]);
+                            baseData.setBirthday(ss[1]);
+                            baseData.setMaritalstate(ss[2]);
+                            baseData.setMobile(ss[3]);
                             baseMsg = baseMsg.split(m2.group(1))[1];
                         } catch (ArrayIndexOutOfBoundsException e) {
                             e.printStackTrace();
@@ -118,10 +114,10 @@ public class PdfboxUtil {
                     String ss[] = s1.split(" +");
                     if (ss.length != 0) {
                         try {
-                            base.setPhone1(ss[0]);
-                            base.setPhone2(ss[1]);
-                            base.setSchool(ss[2]);
-                            base.setDegree(ss[3]);
+                            base.setOfficetelePhoneNo(ss[0]);
+                            base.setHometelePhoneNo(ss[1]);
+                            base.setEdulevel(ss[2]);
+                            base.setEdudegree(ss[3]);
                             baseMsg = baseMsg.split(m3.group(1))[1];
                         } catch (ArrayIndexOutOfBoundsException e) {
                             e.printStackTrace();
@@ -134,10 +130,10 @@ public class PdfboxUtil {
                     String ss[] = s2.split(" +");
                     if (ss.length != 0) {
                         try {
-                            baseData.setPhone1(ss[0]);
-                            baseData.setPhone2(ss[1]);
-                            baseData.setSchool(ss[2]);
-                            baseData.setDegree(ss[3]);
+                            baseData.setOfficetelePhoneNo(ss[0]);
+                            baseData.setHometelePhoneNo(ss[1]);
+                            baseData.setEdulevel(ss[2]);
+                            baseData.setEdudegree(ss[3]);
                             baseMsg = baseMsg.split(m4.group(1))[1];
                         } catch (ArrayIndexOutOfBoundsException e) {
                             e.printStackTrace();
@@ -154,8 +150,8 @@ public class PdfboxUtil {
                     }
                     if (ss.length != 0) {
                         try {
-                            base.setTelAddress(ss[0]);
-                            base.setRegAddress(ss[1]);
+                            base.setPostaddress(ss[0]);
+                            base.setRegisteredaddress(ss[1]);
                             baseMsg = baseMsg.split(m5.group(1))[1];
                         } catch (ArrayIndexOutOfBoundsException e) {
                             e.printStackTrace();
@@ -168,8 +164,8 @@ public class PdfboxUtil {
                     String ss[] = s2.split(" +");
                     if (ss.length != 0) {
                         try {
-                            baseData.setTelAddress(ss[0]);
-                            baseData.setRegAddress(ss[1]);
+                            baseData.setPostaddress(ss[0]);
+                            baseData.setRegisteredaddress(ss[1]);
                             baseMsg = baseMsg.split(m6.group(1))[1];
                         } catch (ArrayIndexOutOfBoundsException e) {
                             e.printStackTrace();
@@ -179,25 +175,27 @@ public class PdfboxUtil {
                 Matcher m7 = compile("联系电话(.*?)数据发生机构名称").matcher(baseMsg);
                 //姓名 证件类型 证件号码 工作单位 联系电话 配偶
                 if (m7.find()) {
+                    Spouse spouse = new Spouse();
                     String s1 = m7.group(1).trim();
                     String ss[] = s1.split(" +");
                     if (ss.length != 0) {
                         try {
-                            base.setName1(ss[0]);
-                            base.setIdtype1(ss[1]);
-                            base.setIdcard1(ss[2]);
-                            base.setWork1(ss[3]);
-                            base.setTelphone1(ss[4]);
+                            spouse.setName(ss[0]);
+                            spouse.setCerttype(ss[1]);
+                            spouse.setCertno(ss[2]);
+                            spouse.setEmployer(ss[3]);
+                            spouse.setTelephoneno(ss[4]);
                             baseMsg = baseMsg.split(m7.group(1))[1];
                         } catch (ArrayIndexOutOfBoundsException e) {
                             e.printStackTrace();
                         }
                     }
+                    base.setSpouse(spouse);
                 }
                 Matcher m8 = compile("数据发生机构名称(.*?)居住信息").matcher(baseMsg);
                 if (m8.find()) {
                     String s2 = m8.group(1).replaceAll("数据发生机构名称", "").trim();
-                    baseData.setWife(s2);
+                    baseData.setSpouse(s2);
                     int num=baseMsg.indexOf(m8.group(1));
                     baseMsg = baseMsg.substring(num);
                 }
@@ -209,14 +207,14 @@ public class PdfboxUtil {
                     List la = new ArrayList();
                     try {
                         for (int i = 0; i < ss.length ; i=i+4) {
-                            House house = new House();
-                            house.setNo(ss[i]);
-                            house.setAddress(ss[i+1]);
-                            house.setStatus(ss[i+2]);
-                            house.setUpdateTime(ss[i+3]);
-                            la.add(house);
+                            Residence residence = new Residence();
+                            residence.setSortno(ss[i]);
+                            residence.setAddress(ss[i+1]);
+                            residence.setResidencetype(ss[i+2]);
+                            residence.setGettime(ss[i+3]);
+                            la.add(residence);
                         }
-                        base.setHouses(la);
+                        base.setResidences(la);
                         baseMsg = baseMsg.split(ma.group(1))[1];
                     } catch (ArrayIndexOutOfBoundsException e) {
                         e.printStackTrace();
@@ -231,12 +229,12 @@ public class PdfboxUtil {
                     List la = new ArrayList();
                     try {
                         for (int i = 0; i < ss.length ; i=i+2) {
-                            HouseData house =new HouseData();
+                            ResidenceData house =new ResidenceData();
                             house.setNo(ss[i]);
                             house.setData(ss[i+1]);
                             la.add(house);
                         }
-                        baseData.setHouseDatas(la);
+                        baseData.setResidenceData(la);
                         baseMsg = baseMsg.split(mb.group(1))[1];
                     } catch (ArrayIndexOutOfBoundsException e) {
                         e.printStackTrace();
@@ -257,9 +255,9 @@ public class PdfboxUtil {
                             }
                         }
                         for (int l = 0; l < ll.size(); l++) {
-                            Work work = new Work();
-                            work.setNo(ss1[ll.get(l)]);
-                            work.setWork(ss1[ll.get(l)+1]);
+                            Professional professional = new Professional();
+                            professional.setSortno(ss1[ll.get(l)]);
+                            professional.setEmployer(ss1[ll.get(l)+1]);
                             int num = 1;
                             if(l<ll.size()-1){
                                 num = ll.get(l+1)-ll.get(l)-2;
@@ -272,10 +270,10 @@ public class PdfboxUtil {
                                 }
                                 num --;
                             }
-                            work.setWorkAddress(workms);
-                            la.add(work);
+                            professional.setEmployerAddress(workms);
+                            la.add(professional);
                         }
-                        base.setWorks(la);
+                        base.setProfessionals(la);
                         baseMsg = baseMsg.split(mc.group(1))[1];
                     } catch (ArrayIndexOutOfBoundsException e) {
                         e.printStackTrace();
@@ -286,7 +284,7 @@ public class PdfboxUtil {
                 if(md1.find()){
                     String s1 = md1.group(1).trim();
                     String ss[] = s1.split(" +");
-                    List la = base.getWorks();
+                    List la = base.getProfessionals();
                     try {
                         List<Integer> ll = new ArrayList();
                         for (int i = 0; i < ss.length ; i++) {
@@ -295,17 +293,17 @@ public class PdfboxUtil {
                             }
                         }
                         for (int j = 0; j < ll.size(); j++) {
-                            Work work = (Work) la.get(j);
+                            Professional professional = (Professional) la.get(j);
                             ll.get(j);
-                            work.setProfession(ss[ll.get(j)+1]);
-                            work.setBusiness(ss[ll.get(j)+2]);//private String business;
-                            work.setDuty(ss[ll.get(j)+3]);//private String duty;
-                            work.setTitle(ss[ll.get(j)+4]);// private String title;
-                            work.setWorkTime(ss[ll.get(j)+5]);//private String workTime;
-                            work.setUpdateTime(ss[ll.get(j)+6]);//private String updateTime;
-                            la.set(j,work);
+                            professional.setOccupation(ss[ll.get(j)+1]);
+                            professional.setIndustry(ss[ll.get(j)+2]);//private String business;
+                            professional.setDuty(ss[ll.get(j)+3]);//private String duty;
+                            professional.setTitle(ss[ll.get(j)+4]);// private String title;
+                            professional.setStartYear(ss[ll.get(j)+5]);//private String workTime;
+                            professional.setGettime(ss[ll.get(j)+6]);//private String updateTime;
+                            la.set(j, professional);
                         }
-                        base.setWorks(la);
+                        base.setProfessionals(la);
                     } catch (ArrayIndexOutOfBoundsException e) {
                         e.printStackTrace();
                     } catch (IndexOutOfBoundsException e) {
@@ -321,12 +319,12 @@ public class PdfboxUtil {
                     List la = new ArrayList();
                     try {
                         for (int i = 0; i < ss.length ; i=i+2) {
-                            WorkData workData =new WorkData();
-                            workData.setNo(ss[i]);
-                            workData.setData(ss[i+1]);
-                            la.add(workData);
+                            ProfessionalData professionalData =new ProfessionalData();
+                            professionalData.setNo(ss[i]);
+                            professionalData.setData(ss[i+1]);
+                            la.add(professionalData);
                         }
-                        baseData.setWorkDatas(la);
+                        baseData.setProfessionalData(la);
                     } catch (ArrayIndexOutOfBoundsException e) {
                         e.printStackTrace();
                     }
@@ -342,118 +340,119 @@ public class PdfboxUtil {
                     m1 = compile("异议标注 数目(.*?)逾期及违约信息概要").matcher(sumMsg);
                 }
                 //信用提示
-                Tips tips = new Tips();
+                Creditcue creditcue = new Creditcue();
                 if (m1.find()) {
                     String s1 = m1.group(1).trim();
                     String ss[] = s1.split(" +");
                     if (ss.length != 0) {
                         try {
-                            tips.setLocation1(ss[0]);
-                            tips.setLocation2(ss[1]);
-                            tips.setLocation3(ss[2]);
-                            tips.setLocation4(ss[3]);
-                            tips.setLocation5(ss[4]);
-                            tips.setLocation6(ss[5]);
-                            tips.setLocation7(ss[6]);
-                            tips.setLocation8(ss[7]);
-                            tips.setLocation9(ss[8]);
-                            tips.setLocation10(ss[9]);
+                            creditcue.setHouseloanCount(ss[0]);
+                            creditcue.setHouseloan2Count(ss[1]);
+                            creditcue.setOtherloanCount(ss[2]);
+                            creditcue.setFirstloanopenMonth(ss[3]);
+                            creditcue.setLoancardCount(ss[4]);
+                            creditcue.setFirstloancardopenMonth(ss[5]);
+                            creditcue.setStandardloancardCount(ss[6]);
+                            creditcue.setFirststandardloancardopenMonth(ss[7]);
+                            creditcue.setAnnounceCount(ss[8]);
+                            creditcue.setDissentCount(ss[9]);
                             sumMsg = sumMsg.split(m1.group(1))[1];
                         } catch (ArrayIndexOutOfBoundsException e) {
                             e.printStackTrace();
                         }
                     }
                 }
-                sum.setTips(tips);
+                sum.setCreditcue(creditcue);
                 if(sumMsg.indexOf("逾期及违约信息概要")>=0){
                     Matcher m2 = compile("最长透支 月数(.*?)授信及负债信息概要").matcher(sumMsg);
-                    Overdue overdue = new Overdue();
+                    OverdueSummary overdueSummary = new OverdueSummary();
                     if (m2.find()) {
                         String s1 = m2.group(1).trim();
                         String ss[] = s1.split(" +");
                         if (ss.length != 0) {
                             try {
-                                overdue.setLocation1(ss[0]);
-                                overdue.setLocation2(ss[1]);
-                                overdue.setLocation3(ss[2]);
-                                overdue.setLocation4(ss[3]);
-                                overdue.setLocation5(ss[4]);
-                                overdue.setLocation6(ss[5]);
-                                overdue.setLocation7(ss[6]);
-                                overdue.setLocation8(ss[7]);
-                                overdue.setLocation9(ss[8]);
-                                overdue.setLocation10(ss[9]);
-                                overdue.setLocation11(ss[10]);
-                                overdue.setLocation12(ss[11]);
+                                overdueSummary.setCount(ss[0]);
+                                overdueSummary.setMonths(ss[1]);
+                                overdueSummary.setHighestoverdueamountpermon(ss[2]);
+                                overdueSummary.setMaxDuration(ss[3]);
+                                overdueSummary.setCount2(ss[4]);
+                                overdueSummary.setMonths2(ss[5]);
+                                overdueSummary.setHighestoverdueamountpermon2(ss[6]);
+                                overdueSummary.setMaxDuration2(ss[7]);
+                                overdueSummary.setCount3(ss[8]);
+                                overdueSummary.setMonths3(ss[9]);
+                                overdueSummary.setHighestoverdueamountpermon3(ss[10]);
+                                overdueSummary.setMaxDuration3(ss[11]);
                                 sumMsg = sumMsg.split(m2.group(1))[1];
                             } catch (ArrayIndexOutOfBoundsException e) {
                                 e.printStackTrace();
                             }
                         }
-                        sum.setOverdue(overdue);
+                        sum.setOverdueSummary(overdueSummary);
                     }
                 }
                 Matcher m3 = compile("最近6个月平均应 还款(.*?)未销户贷记卡信息汇总").matcher(sumMsg);
                 //授信及负债信息概要
-                Credit credit = new Credit();
+                UnpaidLoan unpaidLoan = new UnpaidLoan();
                 if (m3.find()) {
                     String s1 = m3.group(1).trim();
                     String ss[] = s1.split(" +");
                     if (ss.length != 0) {
                         try {
-                            credit.setLocation1(ss[0]);
-                            credit.setLocation2(ss[1]);
-                            credit.setLocation3(ss[2]);
-                            credit.setLocation4(ss[3]);
-                            credit.setLocation5(ss[4]);
-                            credit.setLocation6(ss[5]);
+                            unpaidLoan.setFinancecorpCount(ss[0]);
+                            unpaidLoan.setFinanceorgCount(ss[1]);
+                            unpaidLoan.setAccountCount(ss[2]);
+                            unpaidLoan.setCreditLimit(ss[3]);
+                            unpaidLoan.setBalance(ss[4]);
+                            unpaidLoan.setLatest6monthusedavgamount(ss[5]);
                             sumMsg = sumMsg.split(m3.group(1))[1];
                         } catch (ArrayIndexOutOfBoundsException e) {
                             e.printStackTrace();
                         }
                     }
                 }
-                System.out.println(sumMsg);
                 Matcher m4 = compile("最近6个月平均使 用额度(.*)").matcher(sumMsg);
+                UndestoryLoancard undestoryLoancard = new UndestoryLoancard();
                 if (m4.find()) {
                     String s1 = m4.group(1).trim();
                     String ss[] = s1.split(" +");
                     if (ss.length != 0) {
                         try {
-                            credit.setLocation7(ss[0]);
-                            credit.setLocation8(ss[1]);
-                            credit.setLocation9(ss[2]);
-                            credit.setLocation10(ss[3]);
-                            credit.setLocation11(ss[4]);
-                            credit.setLocation12(ss[5]);
-                            credit.setLocation13(ss[6]);
-                            credit.setLocation14(ss[7]);
+                            undestoryLoancard.setFinancecorpCount(ss[0]);
+                            undestoryLoancard.setFinanceorgCount(ss[1]);
+                            undestoryLoancard.setAccountCount(ss[2]);
+                            undestoryLoancard.setCreditlimit(ss[3]);
+                            undestoryLoancard.setMaxcreditlimitperorg(ss[4]);
+                            undestoryLoancard.setMincreditlimitperorg(ss[5]);
+                            undestoryLoancard.setUsedcreditlimit(ss[6]);
+                            undestoryLoancard.setLatest6monthusedavgamount(ss[7]);
                         } catch (ArrayIndexOutOfBoundsException e) {
                             e.printStackTrace();
                         }
                     }
                 }
-                sum.setCredit(credit);
+                sum.setUnpaidLoan(unpaidLoan);
+                sum.setUndestoryLoancard(undestoryLoancard);
             }
             /**
              * 三 信贷交易信息明细
              */
             CreditMsg creditMsg1 = new CreditMsg();
             if(creditMsg!=null){
-                List<Loans> loansList = new ArrayList<>();
+                List<LoanInfo> loanInfoList = new ArrayList<>();
                 Matcher ma = compile("贷款 +(.*?)贷记卡 +").matcher(creditMsg);
                 if(ma.find()){
                     String dai = ma.group(1).trim();
                     creditMsg = creditMsg.substring(creditMsg.indexOf("贷记卡")+3);
                     if(dai!=null){
                         while (true){
-                            Loans loans = new Loans();
+                            LoanInfo loanInfo = new LoanInfo();
                             Matcher m1 = compile("(.*?)账户状态").matcher(dai);
                             boolean flag = true;
                             if (m1.find()) {
                                 flag = false;
                                 String s1 = m1.group(1).trim();
-                                loans.setMessage(s1);
+                                loanInfo.setMessage(s1);
                                 dai = dai.split(m1.group(1))[1];
                             }
                             Matcher m2 = compile("最近一次还款 日期(.*?)当前逾期期 数").matcher(dai);
@@ -463,14 +462,14 @@ public class PdfboxUtil {
                                 String ss[] = s1.split(" +");
                                 if (ss.length != 0) {
                                     try {
-                                        loans.setStatus(ss[0]);//账户状态
-                                        loans.setClassify(ss[1]);;//五级分类
-                                        loans.setBalance(ss[2]);//本金余额
-                                        loans.setRepayment(ss[3]);//剩余还款期数
-                                        loans.setPayment(ss[4]);//本月应还款
-                                        loans.setPayTime(ss[5]);//应还款日
-                                        loans.setPayment1(ss[6]);//本月实还款
-                                        loans.setPayTime1(ss[7]);//最近一次还款日期
+                                        loanInfo.setLoanacctState(ss[0]);//账户状态
+                                        loanInfo.setClass5State(ss[1]);;//五级分类
+                                        loanInfo.setBalance(ss[2]);//本金余额
+                                        loanInfo.setRemainpaymentcyc(ss[3]);//剩余还款期数
+                                        loanInfo.setScheduledpaymentamount(ss[4]);//本月应还款
+                                        loanInfo.setScheduledpaymentdate(ss[5]);//应还款日
+                                        loanInfo.setActualpaymentamount(ss[6]);//本月实还款
+                                        loanInfo.setRecentpaydate(ss[7]);//最近一次还款日期
                                         dai = dai.split(m2.group(1))[1];
                                     } catch (ArrayIndexOutOfBoundsException e) {
                                         e.printStackTrace();
@@ -484,12 +483,12 @@ public class PdfboxUtil {
                                 String ss[] = s1.split(" +");
                                 if (ss.length != 0) {
                                     try {
-                                        loans.setOverdue(ss[0]);//当前逾期期数
-                                        loans.setOverdueMoney(ss[1]);//当前逾期金额
-                                        loans.setOverdueMoney31(ss[2]);//当前逾期金额
-                                        loans.setOverdueMoney61(ss[3]);//当前逾期金额
-                                        loans.setOverdueMoney91(ss[4]);//当前逾期金额
-                                        loans.setOverdueMoney180(ss[5]);//当前逾期金额
+                                        loanInfo.setCurroverduecyc(ss[0]);//当前逾期期数
+                                        loanInfo.setCurroverdueamount(ss[1]);//当前逾期金额
+                                        loanInfo.setOverdue31to60amount(ss[2]);//当前逾期金额
+                                        loanInfo.setOverdue61to90amount(ss[3]);//当前逾期金额
+                                        loanInfo.setOverdue91to180amount(ss[4]);//当前逾期金额
+                                        loanInfo.setOverdueover180amount(ss[5]);//当前逾期金额
                                         dai = dai.split(m3.group(1))[1];
                                     } catch (ArrayIndexOutOfBoundsException e) {
                                         e.printStackTrace();
@@ -503,33 +502,33 @@ public class PdfboxUtil {
                                 String ss[] = s1.split(" +");
                                 if (ss.length != 0) {
                                     try {
-                                        loans.setRecord(s1);
+                                        loanInfo.setRecord(s1);
                                         dai = dai.substring(dai.indexOf(s1)+s1.length());
                                     } catch (ArrayIndexOutOfBoundsException e) {
                                         e.printStackTrace();
                                     }
                                 }
                             }else if (flag == false){
-                                loans.setRecord(dai.replaceAll("还款记录",""));
+                                loanInfo.setRecord(dai.replaceAll("还款记录",""));
                                 flag = true;
                             }
-                            loansList.add(loans);
+                            loanInfoList.add(loanInfo);
                             if(flag){
                                 break;
                             }
                         }
                     }
                 }
-                creditMsg1.setLoans(loansList);
-                List<Card> cardsList = new ArrayList<>();
+                creditMsg1.setLoans(loanInfoList);
+                List<LoancardInfo> cardsList = new ArrayList<>();
                 while (true){
-                    Card card = new Card();
+                    LoancardInfo loancardInfo = new LoancardInfo();
                     Matcher m1 = compile("(.*?)账户状态 ").matcher(creditMsg);
                     boolean flag = true;
                     if (m1.find()) {
                         flag = false;
                         String s1 = m1.group(1).trim();
-                        card.setMessage(s1);
+                        loancardInfo.setMessage(s1);
                         creditMsg = creditMsg.split(m1.group(1))[1];
                     }
                     Matcher m2 = compile("本月应还款(.*?)账单日").matcher(creditMsg);
@@ -539,11 +538,11 @@ public class PdfboxUtil {
                         String ss[] = s1.split(" +");
                         if (ss.length != 0) {
                             try {
-                                card.setStatus(ss[0]);//账户状态
-                                card.setUsed(ss[1]);//已用额度
-                                card.setUsed6(ss[2]);//最近6个月平均使用额度
-                                card.setUsedMax(ss[3]);//最大使用额度
-                                card.setThisMonth(ss[4]);//本月应还款
+                                loancardInfo.setLoanacctState(ss[0]);//账户状态
+                                loancardInfo.setUsedcreditlimitamount(ss[1]);//已用额度
+                                loancardInfo.setLatest6monthusedavgamount(ss[2]);//最近6个月平均使用额度
+                                loancardInfo.setUsedhighestamount(ss[3]);//最大使用额度
+                                loancardInfo.setScheduledpaymentamount(ss[4]);//本月应还款
                                 creditMsg = creditMsg.substring(creditMsg.indexOf(s1)+s1.length());
                             } catch (ArrayIndexOutOfBoundsException e) {
                                 e.printStackTrace();
@@ -557,11 +556,11 @@ public class PdfboxUtil {
                         String ss[] = s1.split(" +");
                         if (ss.length != 0) {
                             try {
-                                card.setPayTime(ss[0]);//账单日
-                                card.setPayMonth(ss[1]);//本月实还款
-                                card.setPayLast(ss[2]);
-                                card.setOverdueNum(ss[3]);
-                                card.setOverdue(ss[4]);
+                                loancardInfo.setScheduledpaymentdate(ss[0]);//账单日
+                                loancardInfo.setActualpaymentamount(ss[1]);//本月实还款
+                                loancardInfo.setRecentpaydate(ss[2]);
+                                loancardInfo.setCurroverduecyc(ss[3]);
+                                loancardInfo.setCurroverdueamount(ss[4]);
                                 creditMsg = creditMsg.split(m3.group(1))[1];
                             } catch (ArrayIndexOutOfBoundsException e) {
                                 e.printStackTrace();
@@ -575,7 +574,7 @@ public class PdfboxUtil {
                         String ss[] = s1.split(" +");
                         if (ss.length != 0) {
                             try {
-                                card.setRecord(s1);
+                                loancardInfo.setRecord(s1);
                                 creditMsg = creditMsg.substring(creditMsg.indexOf(s1)+s1.length());
                             } catch (ArrayIndexOutOfBoundsException e) {
                                 e.printStackTrace();
@@ -583,27 +582,27 @@ public class PdfboxUtil {
                         }
                     }else if (flag == false){
                         if (creditMsg.length()<20){
-                            card.setRecord(creditMsg.replaceAll("还款记录",""));
+                            loancardInfo.setRecord(creditMsg.replaceAll("还款记录",""));
                         }
                     }
                     if(!flag){
-                        cardsList.add(card);
+                        cardsList.add(loancardInfo);
                     }else{
                         creditMsg = creditMsg.replaceAll(" ","");
                         if(creditMsg.length()!=0){
                             String[] ss0 = creditMsg.split("[1-9]+\\.");
                             for(String s0:ss0){
                                 if(!"".equals(s0)){
-                                    Card card1 = new Card();
-                                    card1.setMessage(s0);
-                                    cardsList.add(card1);
+                                    LoancardInfo loancardInfo1 = new LoancardInfo();
+                                    loancardInfo1.setMessage(s0);
+                                    cardsList.add(loancardInfo1);
                                 }
                             }
                         }
                         break;
                     }
                 }
-                creditMsg1.setCards(cardsList);
+                creditMsg1.setLoancardInfos(cardsList);
             }
             /**
              * 四 公共信息明细
@@ -617,19 +616,19 @@ public class PdfboxUtil {
                     String ss[] = s1.split(" +");
                     try {
                         for (int i = 0; i <ss.length ; i=i+9) {
-                            PayRecord payRecord = new PayRecord();
-                            payRecord.setNo(ss[i]);
-                            payRecord.setPlace(ss[i+1]);
-                            payRecord.setDate1(ss[i+2]);
-                            payRecord.setDate2(ss[i+3]);
-                            payRecord.setDate3(ss[i+4]);
-                            payRecord.setStatus(ss[i+5]);
-                            payRecord.setPayMonth(ss[i+6]);
-                            payRecord.setPersonScale(ss[i+7]);
-                            payRecord.setComScale(ss[i+8]);
-                            ll.add(payRecord);
+                            AccfundRecord accfundRecord = new AccfundRecord();
+                            accfundRecord.setNo(ss[i]);
+                            accfundRecord.setArea(ss[i+1]);
+                            accfundRecord.setRegisterdate(ss[i+2]);
+                            accfundRecord.setFirstmonth(ss[i+3]);
+                            accfundRecord.setTomonth(ss[i+4]);
+                            accfundRecord.setState(ss[i+5]);
+                            accfundRecord.setPay(ss[i+6]);
+                            accfundRecord.setOwnpercent(ss[i+7]);
+                            accfundRecord.setCompercent(ss[i+8]);
+                            ll.add(accfundRecord);
                         }
-                        commonMsg1.setPayRecords(ll);
+                        commonMsg1.setAccfundRecords(ll);
                     }catch (ArrayIndexOutOfBoundsException e){
                         e.printStackTrace();
                     }
@@ -642,11 +641,11 @@ public class PdfboxUtil {
                     String ss[] = s1.split(" +");
                     try {
                         for (int i = 0; i <ss.length/3*3 ; i=i+3) {
-                            PayCompany payCompany = new PayCompany();
-                            payCompany.setNo(ss[i]);
-                            payCompany.setCompany(ss[i+1]);
-                            payCompany.setUpdateDate(ss[i+2]);
-                            ll.add(payCompany);
+                            AccfundCompany accfundCompany = new AccfundCompany();
+                            accfundCompany.setNo(ss[i]);
+                            accfundCompany.setOrganname(ss[i+1]);
+                            accfundCompany.setGettime(ss[i+2]);
+                            ll.add(accfundCompany);
                         }
                     }catch (ArrayIndexOutOfBoundsException e){
                         e.printStackTrace();
@@ -657,21 +656,21 @@ public class PdfboxUtil {
             /**
              * 五 查询记录
              */
-            QueryMsg queryMsg1 = new QueryMsg();
+            RecordSummary recordSummary1 = new RecordSummary();
             if(queryMsg!=null){
-                Matcher m1 = compile("审查(.*?)机构查询记录明细").matcher(queryMsg);
+                Matcher m1 = compile("特约商户实名 审查(.*?)机构查询记录明细").matcher(queryMsg);
                 if (m1.find()) {
                     String s1 = m1.group(1).trim();
                     String ss[] = s1.split(" +");
                     try {
-                        queryMsg1.setLoans(ss[0]);
-                        queryMsg1.setCard(ss[1]);
-                        queryMsg1.setLoansNum(ss[2]);
-                        queryMsg1.setCardNum(ss[3]);
-                        queryMsg1.setPersonNum(ss[4]);
-                        queryMsg1.setManagement(ss[5]);
-                        queryMsg1.setGuarantee(ss[6]);
-                        queryMsg1.setSpecial(ss[7]);
+                        recordSummary1.setOrgsum1(ss[0]);
+                        recordSummary1.setOrgsum2(ss[1]);
+                        recordSummary1.setRecordsum1(ss[2]);
+                        recordSummary1.setRecordsum2(ss[3]);
+                        recordSummary1.setRecordsumself(ss[4]);
+                        recordSummary1.setTowyearrecordsum1(ss[5]);
+                        recordSummary1.setTowyearrecordsum2(ss[6]);
+                        recordSummary1.setTowyearrecordsum3(ss[7]);
                         queryMsg =queryMsg.substring(queryMsg.indexOf(s1)+s1.length());
                     }catch (ArrayIndexOutOfBoundsException e){
                         e.printStackTrace();
@@ -681,19 +680,19 @@ public class PdfboxUtil {
                 if (m2.find()) {
                     String s1 = m2.group(1).trim();
                     String ss[] = s1.split(" +");
-                    List<QueryCom> company = new ArrayList<>();
+                    List<RecordDetail> company = new ArrayList<>();
                     try {
                         for (int i = 0; i < ss.length; i=i+4) {
-                            QueryCom queryCom = new QueryCom();
-                            queryCom.setNo(ss[i]);
-                            queryCom.setQueryTime(ss[i+1]);
-                            queryCom.setOperator(ss[i+2]);
-                            queryCom.setReason(ss[i+3]);
-                            company.add(queryCom);
+                            RecordDetail recordDetail = new RecordDetail();
+                            recordDetail.setNo(ss[i]);
+                            recordDetail.setQueryDate(ss[i+1]);
+                            recordDetail.setQuerier(ss[i+2]);
+                            recordDetail.setQueryReason(ss[i+3]);
+                            company.add(recordDetail);
                         }
                         queryMsg =queryMsg.substring(queryMsg.indexOf(s1)+s1.length());
                         if(company.size()!=0){
-                            queryMsg1.setCompany(company);
+                            recordSummary1.setCompany(company);
                         }
                     }catch (ArrayIndexOutOfBoundsException e){
                         e.printStackTrace();
@@ -702,18 +701,18 @@ public class PdfboxUtil {
                 if (queryMsg.trim().length()!=0) {
                     String s1 =queryMsg.substring(queryMsg.indexOf("查询原因")+"查询原因".length()).trim();
                     String ss[] = s1.split(" +");
-                    List<QueryCom> person = new ArrayList<>();
+                    List<RecordDetail> person = new ArrayList<>();
                     try {
                         for (int i = 0; i < ss.length; i=i+4) {
-                            QueryCom queryCom = new QueryCom();
-                            queryCom.setNo(ss[i]);
-                            queryCom.setQueryTime(ss[i+1]);
-                            queryCom.setOperator(ss[i+2]);
-                            queryCom.setReason(ss[i+3]);
-                            person.add(queryCom);
+                            RecordDetail recordDetail = new RecordDetail();
+                            recordDetail.setNo(ss[i]);
+                            recordDetail.setQueryDate(ss[i+1]);
+                            recordDetail.setQuerier(ss[i+2]);
+                            recordDetail.setQueryReason(ss[i+3]);
+                            person.add(recordDetail);
                         }
                         if(person.size()!=0){
-                            queryMsg1.setPerson(person);
+                            recordSummary1.setPerson(person);
                         }
                     }catch (ArrayIndexOutOfBoundsException e){
                         e.printStackTrace();
@@ -726,7 +725,7 @@ public class PdfboxUtil {
             msg.setSumMsg(sum);
             msg.setCreditMsg(creditMsg1);
             msg.setCommonMsg(commonMsg1);
-            msg.setQueryMsg(queryMsg1);
+            msg.setRecordSummary(recordSummary1);
             System.out.println("=================================");
             return msg;
             //System.out.println(baseMsg);
@@ -804,13 +803,13 @@ public class PdfboxUtil {
             String operator = stripper1.getTextForRegion("operator").replaceAll("\r|\n", "");
             String reason = stripper1.getTextForRegion("reason").replaceAll("\r|\n", "");
             msg.setReportNo(reportNo);
-            msg.setRequestTime(requestTime);
-            msg.setReportTime(reportTime);
+            msg.setQueryTime(requestTime);
+            msg.setReportCreateTime(reportTime);
             msg.setName(name);
-            msg.setIdcard(idcard);
-            msg.setIdtype(idtype);
-            msg.setOperator(operator);
-            msg.setReason(reason);
+            msg.setCertNo(idcard);
+            msg.setCertType(idtype);
+            msg.setUserCode(operator);
+            msg.setQueryReason(reason);
         } catch (IOException e) {
             e.printStackTrace();
         }

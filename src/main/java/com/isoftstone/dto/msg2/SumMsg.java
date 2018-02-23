@@ -4,31 +4,40 @@ package com.isoftstone.dto.msg2;
  * 信息概要
  */
 public class SumMsg {
-    private Tips tips;
-    private Overdue overdue;
-    private Credit credit;
+    private Creditcue creditcue;
+    private OverdueSummary overdueSummary;
+    private UnpaidLoan unpaidLoan;
+    private UndestoryLoancard undestoryLoancard;
 
-    public Tips getTips() {
-        return tips;
+    public Creditcue getCreditcue() {
+        return creditcue;
     }
 
-    public void setTips(Tips tips) {
-        this.tips = tips;
+    public void setCreditcue(Creditcue creditcue) {
+        this.creditcue = creditcue;
     }
 
-    public Overdue getOverdue() {
-        return overdue;
+    public OverdueSummary getOverdueSummary() {
+        return overdueSummary;
     }
 
-    public void setOverdue(Overdue overdue) {
-        this.overdue = overdue;
+    public void setOverdueSummary(OverdueSummary overdueSummary) {
+        this.overdueSummary = overdueSummary;
     }
 
-    public Credit getCredit() {
-        return credit;
+    public UnpaidLoan getUnpaidLoan() {
+        return unpaidLoan;
     }
 
-    public void setCredit(Credit credit) {
-        this.credit = credit;
+    public void setUnpaidLoan(UnpaidLoan unpaidLoan) {
+        this.unpaidLoan = unpaidLoan;
+    }
+
+    public UndestoryLoancard getUndestoryLoancard() {
+        return undestoryLoancard;
+    }
+
+    public void setUndestoryLoancard(UndestoryLoancard undestoryLoancard) {
+        this.undestoryLoancard = undestoryLoancard;
     }
 }

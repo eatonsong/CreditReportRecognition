@@ -3,7 +3,7 @@ package com.isoftstone.dto.msg1;
 /**
  * 居住信息数据发生机构名称
  */
-public class HouseData {
+public class ResidenceData {
     private String no;
     private String data;
 

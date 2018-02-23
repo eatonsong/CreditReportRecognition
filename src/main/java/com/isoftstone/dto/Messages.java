@@ -10,31 +10,31 @@ import com.isoftstone.dto.msg1.BaseMsgData;
 import com.isoftstone.dto.msg2.SumMsg;
 import com.isoftstone.dto.msg3.CreditMsg;
 import com.isoftstone.dto.msg4.CommonMsg;
-import com.isoftstone.dto.msg5.QueryMsg;
+import com.isoftstone.dto.msg5.RecordSummary;
 
-public class Messages {
+public class Messages  {
     private String reportNo;//报告编号
-    private String requestTime;//查询请求时间
-    private String reportTime;//报告时间
+    private String queryTime;//查询请求时间
+    private String reportCreateTime;//报告时间
 
     private String name;//被查询者姓名
-    private String idtype;//被查询者证件类型
-    private String idcard;//被查询者证件号码
-    private String operator;//操作员
-    private String reason;//查询原因
+    private String certType;//被查询者证件类型
+    private String certNo;//被查询者证件号码
+    private String userCode;//操作员
+    private String queryReason;//查询原因
     private BaseMsg baseMsg;//个人基本信息
     private BaseMsgData baseMsgData;//数据发生机构
     private SumMsg sumMsg;//信息概要
     private CreditMsg creditMsg;//信贷交易信息明细
     private CommonMsg commonMsg;//四 公共信息明细
-    private QueryMsg queryMsg;//查询记录
+    private RecordSummary recordSummary;//查询记录
 
-    public QueryMsg getQueryMsg() {
-        return queryMsg;
+    public RecordSummary getRecordSummary() {
+        return recordSummary;
     }
 
-    public void setQueryMsg(QueryMsg queryMsg) {
-        this.queryMsg = queryMsg;
+    public void setRecordSummary(RecordSummary recordSummary) {
+        this.recordSummary = recordSummary;
     }
 
     public CommonMsg getCommonMsg() {
@@ -85,36 +85,36 @@ public class Messages {
         this.name = name;
     }
 
-    public String getIdtype() {
-        return idtype;
+    public String getCertType() {
+        return certType;
     }
 
-    public void setIdtype(String idtype) {
-        this.idtype = idtype;
+    public void setCertType(String certType) {
+        this.certType = certType;
     }
 
-    public String getIdcard() {
-        return idcard;
+    public String getCertNo() {
+        return certNo;
     }
 
-    public void setIdcard(String idcard) {
-        this.idcard = idcard;
+    public void setCertNo(String certNo) {
+        this.certNo = certNo;
     }
 
-    public String getOperator() {
-        return operator;
+    public String getUserCode() {
+        return userCode;
     }
 
-    public void setOperator(String operator) {
-        this.operator = operator;
+    public void setUserCode(String userCode) {
+        this.userCode = userCode;
     }
 
-    public String getReason() {
-        return reason;
+    public String getQueryReason() {
+        return queryReason;
     }
 
-    public void setReason(String reason) {
-        this.reason = reason;
+    public void setQueryReason(String queryReason) {
+        this.queryReason = queryReason;
     }
 
     public String getReportNo() {
@@ -125,19 +125,19 @@ public class Messages {
         this.reportNo = reportNo;
     }
 
-    public String getRequestTime() {
-        return requestTime;
+    public String getQueryTime() {
+        return queryTime;
     }
 
-    public void setRequestTime(String requestTime) {
-        this.requestTime = requestTime;
+    public void setQueryTime(String queryTime) {
+        this.queryTime = queryTime;
     }
 
-    public String getReportTime() {
-        return reportTime;
+    public String getReportCreateTime() {
+        return reportCreateTime;
     }
 
-    public void setReportTime(String reportTime) {
-        this.reportTime = reportTime;
+    public void setReportCreateTime(String reportCreateTime) {
+        this.reportCreateTime = reportCreateTime;
     }
 }

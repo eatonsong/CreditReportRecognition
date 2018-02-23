@@ -5,172 +5,130 @@ package com.isoftstone.dto.msg1;/*
  * 1个人基本信息
  */
 
-import com.isoftstone.dto.msg1.House;
-import com.isoftstone.dto.msg1.Work;
-
 import java.io.Serializable;
 import java.util.List;
 
 public class BaseMsg implements Serializable{
 
     //性别 出生日期 婚姻状况 手机号码
-    private String sex;
-    private String birth;
-    private String merry;
-    private String telphone;
+    private String gender;
+    private String birthday;
+    private String maritalstate;
+    private String mobile;
     //单位电话 住宅电话 学历 学位
-    private String phone1;
-    private String phone2;
-    private String school;
-    private String degree;
+    private String officetelePhoneNo;
+    private String hometelePhoneNo;
+    private String edulevel;
+    private String edudegree;
     //通讯地址 户籍地址
-    private String telAddress;
-    private String regAddress;
-    //姓名 证件类型 证件号码 工作单位 联系电话 配偶
-    private String name1;
-    private String idtype1;
-    private String idcard1;
-    private String work1;
-    private String telphone1;
-
+    private String postaddress;
+    private String registeredaddress;
+    private Spouse spouse;//配偶
     //居住信息
-    private List<House> houses;
-    private List<Work> works;
+    private List<Residence> residences;
+    private List<Professional> professionals;
 
-    public List<Work> getWorks() {
-        return works;
+    public List<Professional> getProfessionals() {
+        return professionals;
     }
 
-    public void setWorks(List<Work> works) {
-        this.works = works;
+    public void setProfessionals(List<Professional> professionals) {
+        this.professionals = professionals;
     }
 
-    public List<House> getHouses() {
-        return houses;
+    public List<Residence> getResidences() {
+        return residences;
     }
 
-    public void setHouses(List<House> houses) {
-        this.houses = houses;
+    public void setResidences(List<Residence> residences) {
+        this.residences = residences;
     }
 
-    public String getSex() {
-        return sex;
+    public String getGender() {
+        return gender;
     }
 
-    public void setSex(String sex) {
-        this.sex = sex;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
-    public String getBirth() {
-        return birth;
+    public String getBirthday() {
+        return birthday;
     }
 
-    public void setBirth(String birth) {
-        this.birth = birth;
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
     }
 
-    public String getMerry() {
-        return merry;
+    public String getMaritalstate() {
+        return maritalstate;
     }
 
-    public void setMerry(String merry) {
-        this.merry = merry;
+    public void setMaritalstate(String maritalstate) {
+        this.maritalstate = maritalstate;
     }
 
-    public String getTelphone() {
-        return telphone;
+    public String getMobile() {
+        return mobile;
     }
 
-    public void setTelphone(String telphone) {
-        this.telphone = telphone;
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 
-    public String getPhone1() {
-        return phone1;
+    public String getOfficetelePhoneNo() {
+        return officetelePhoneNo;
     }
 
-    public void setPhone1(String phone1) {
-        this.phone1 = phone1;
+    public void setOfficetelePhoneNo(String officetelePhoneNo) {
+        this.officetelePhoneNo = officetelePhoneNo;
     }
 
-    public String getPhone2() {
-        return phone2;
+    public String getHometelePhoneNo() {
+        return hometelePhoneNo;
     }
 
-    public void setPhone2(String phone2) {
-        this.phone2 = phone2;
+    public void setHometelePhoneNo(String hometelePhoneNo) {
+        this.hometelePhoneNo = hometelePhoneNo;
     }
 
-    public String getSchool() {
-        return school;
+    public String getEdulevel() {
+        return edulevel;
     }
 
-    public void setSchool(String school) {
-        this.school = school;
+    public void setEdulevel(String edulevel) {
+        this.edulevel = edulevel;
     }
 
-    public String getDegree() {
-        return degree;
+    public String getEdudegree() {
+        return edudegree;
     }
 
-    public void setDegree(String degree) {
-        this.degree = degree;
+    public void setEdudegree(String edudegree) {
+        this.edudegree = edudegree;
     }
 
-    public String getTelAddress() {
-        return telAddress;
+    public String getPostaddress() {
+        return postaddress;
     }
 
-    public void setTelAddress(String telAddress) {
-        this.telAddress = telAddress;
+    public void setPostaddress(String postaddress) {
+        this.postaddress = postaddress;
     }
 
-    public String getRegAddress() {
-        return regAddress;
+    public String getRegisteredaddress() {
+        return registeredaddress;
     }
 
-    public void setRegAddress(String regAddress) {
-        this.regAddress = regAddress;
+    public void setRegisteredaddress(String registeredaddress) {
+        this.registeredaddress = registeredaddress;
     }
 
-
-    public String getTelphone1() {
-        return telphone1;
+    public Spouse getSpouse() {
+        return spouse;
     }
 
-    public void setTelphone1(String telphone1) {
-        this.telphone1 = telphone1;
-    }
-
-    public String getName1() {
-        return name1;
-    }
-
-    public void setName1(String name1) {
-        this.name1 = name1;
-    }
-
-    public String getIdtype1() {
-        return idtype1;
-    }
-
-    public void setIdtype1(String idtype1) {
-        this.idtype1 = idtype1;
-    }
-
-    public String getIdcard1() {
-        return idcard1;
-    }
-
-    public void setIdcard1(String idcard1) {
-        this.idcard1 = idcard1;
-    }
-
-    public String getWork1() {
-        return work1;
-    }
-
-    public void setWork1(String word1) {
-        this.work1 = word1;
+    public void setSpouse(Spouse spouse) {
+        this.spouse = spouse;
     }
 }
