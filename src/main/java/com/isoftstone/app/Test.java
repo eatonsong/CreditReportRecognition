@@ -19,7 +19,7 @@ public class Test {
         xStream = new XStream(new DomDriver());
     }
     public static void main(String[] args) throws IOException {
-        Messages msg = new PdfboxUtil().getMessages("src/main/resources/pdf/002.pdf");
+        Messages msg = new PdfboxUtil().getMessages("src/main/resources/pdf/001.pdf");
         String jsonStr = JSON.toJSONString(msg);
         String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + xStream.toXML(msg);
         System.out.println(jsonStr);

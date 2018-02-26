@@ -512,6 +512,36 @@ public class PdfboxUtil {
                                 loanInfo.setRecord(dai.replaceAll("还款记录",""));
                                 flag = true;
                             }
+                            String loanRecord = loanInfo.getRecord();
+                            if(loanRecord!=null){
+                                String records[] = loanRecord.trim().split(" ");
+                                if (records.length>=24){
+                                    loanInfo.setRepaymentstatus1(records[0]);
+                                    loanInfo.setRepaymentstatus2(records[1]);
+                                    loanInfo.setRepaymentstatus3(records[2]);
+                                    loanInfo.setRepaymentstatus4(records[3]);
+                                    loanInfo.setRepaymentstatus5(records[4]);
+                                    loanInfo.setRepaymentstatus6(records[5]);
+                                    loanInfo.setRepaymentstatus7(records[6]);
+                                    loanInfo.setRepaymentstatus8(records[7]);
+                                    loanInfo.setRepaymentstatus9(records[8]);
+                                    loanInfo.setRepaymentstatus10(records[9]);
+                                    loanInfo.setRepaymentstatus11(records[10]);
+                                    loanInfo.setRepaymentstatus12(records[11]);
+                                    loanInfo.setRepaymentstatus13(records[12]);
+                                    loanInfo.setRepaymentstatus14(records[13]);
+                                    loanInfo.setRepaymentstatus15(records[14]);
+                                    loanInfo.setRepaymentstatus16(records[15]);
+                                    loanInfo.setRepaymentstatus17(records[16]);
+                                    loanInfo.setRepaymentstatus18(records[17]);
+                                    loanInfo.setRepaymentstatus19(records[18]);
+                                    loanInfo.setRepaymentstatus20(records[19]);
+                                    loanInfo.setRepaymentstatus21(records[20]);
+                                    loanInfo.setRepaymentstatus22(records[21]);
+                                    loanInfo.setRepaymentstatus23(records[22]);
+                                    loanInfo.setRepaymentstatus24(records[23]);
+                                }
+                            }
                             loanInfoList.add(loanInfo);
                             if(flag){
                                 break;
@@ -583,6 +613,36 @@ public class PdfboxUtil {
                     }else if (flag == false){
                         if (creditMsg.length()<20){
                             loancardInfo.setRecord(creditMsg.replaceAll("还款记录",""));
+                        }
+                    }
+                    String loanRecord = loancardInfo.getRecord();
+                    if(loanRecord!=null){
+                        String records[] = loanRecord.trim().split(" ");
+                        if (records.length>=24){
+                            loancardInfo.setRepaymentstatus1(records[0]);
+                            loancardInfo.setRepaymentstatus2(records[1]);
+                            loancardInfo.setRepaymentstatus3(records[2]);
+                            loancardInfo.setRepaymentstatus4(records[3]);
+                            loancardInfo.setRepaymentstatus5(records[4]);
+                            loancardInfo.setRepaymentstatus6(records[5]);
+                            loancardInfo.setRepaymentstatus7(records[6]);
+                            loancardInfo.setRepaymentstatus8(records[7]);
+                            loancardInfo.setRepaymentstatus9(records[8]);
+                            loancardInfo.setRepaymentstatus10(records[9]);
+                            loancardInfo.setRepaymentstatus11(records[10]);
+                            loancardInfo.setRepaymentstatus12(records[11]);
+                            loancardInfo.setRepaymentstatus13(records[12]);
+                            loancardInfo.setRepaymentstatus14(records[13]);
+                            loancardInfo.setRepaymentstatus15(records[14]);
+                            loancardInfo.setRepaymentstatus16(records[15]);
+                            loancardInfo.setRepaymentstatus17(records[16]);
+                            loancardInfo.setRepaymentstatus18(records[17]);
+                            loancardInfo.setRepaymentstatus19(records[18]);
+                            loancardInfo.setRepaymentstatus20(records[19]);
+                            loancardInfo.setRepaymentstatus21(records[20]);
+                            loancardInfo.setRepaymentstatus22(records[21]);
+                            loancardInfo.setRepaymentstatus23(records[22]);
+                            loancardInfo.setRepaymentstatus24(records[23]);
                         }
                     }
                     if(!flag){
