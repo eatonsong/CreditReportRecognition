@@ -15,6 +15,7 @@ import com.isoftstone.dto.msg4.AccfundCompany;
 import com.isoftstone.dto.msg4.AccfundRecord;
 import com.isoftstone.dto.msg5.RecordSummary;
 import com.isoftstone.dto.msg5.RecordDetail;
+import jdk.nashorn.internal.runtime.ECMAException;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.encryption.InvalidPasswordException;
@@ -85,7 +86,7 @@ public class PdfboxUtil {
                             base.setBirthday(ss[1]);
                             base.setMaritalstate(ss[2]);
                             base.setMobile(ss[3]);
-                            baseMsg = baseMsg.split(m1.group(1))[1];
+                            baseMsg = StringUtils.substrBystr(baseMsg,m1.group(1));
                         } catch (ArrayIndexOutOfBoundsException e) {
                             e.printStackTrace();
                         }
@@ -101,7 +102,7 @@ public class PdfboxUtil {
                             baseData.setBirthday(ss[1]);
                             baseData.setMaritalstate(ss[2]);
                             baseData.setMobile(ss[3]);
-                            baseMsg = baseMsg.split(m2.group(1))[1];
+                            baseMsg = StringUtils.substrBystr(baseMsg,m2.group(1));
                         } catch (ArrayIndexOutOfBoundsException e) {
                             e.printStackTrace();
                         }
@@ -118,7 +119,7 @@ public class PdfboxUtil {
                             base.setHometelePhoneNo(ss[1]);
                             base.setEdulevel(ss[2]);
                             base.setEdudegree(ss[3]);
-                            baseMsg = baseMsg.split(m3.group(1))[1];
+                            baseMsg = StringUtils.substrBystr(baseMsg,m3.group(1));
                         } catch (ArrayIndexOutOfBoundsException e) {
                             e.printStackTrace();
                         }
@@ -134,7 +135,7 @@ public class PdfboxUtil {
                             baseData.setHometelePhoneNo(ss[1]);
                             baseData.setEdulevel(ss[2]);
                             baseData.setEdudegree(ss[3]);
-                            baseMsg = baseMsg.split(m4.group(1))[1];
+                            baseMsg = StringUtils.substrBystr(baseMsg,m4.group(1));
                         } catch (ArrayIndexOutOfBoundsException e) {
                             e.printStackTrace();
                         }
@@ -152,7 +153,7 @@ public class PdfboxUtil {
                         try {
                             base.setPostaddress(ss[0]);
                             base.setRegisteredaddress(ss[1]);
-                            baseMsg = baseMsg.split(m5.group(1))[1];
+                            baseMsg = StringUtils.substrBystr(baseMsg,m5.group(1));
                         } catch (ArrayIndexOutOfBoundsException e) {
                             e.printStackTrace();
                         }
@@ -166,7 +167,7 @@ public class PdfboxUtil {
                         try {
                             baseData.setPostaddress(ss[0]);
                             baseData.setRegisteredaddress(ss[1]);
-                            baseMsg = baseMsg.split(m6.group(1))[1];
+                            baseMsg = StringUtils.substrBystr(baseMsg,m6.group(1));
                         } catch (ArrayIndexOutOfBoundsException e) {
                             e.printStackTrace();
                         }
@@ -185,7 +186,7 @@ public class PdfboxUtil {
                             spouse.setCertno(ss[2]);
                             spouse.setEmployer(ss[3]);
                             spouse.setTelephoneno(ss[4]);
-                            baseMsg = baseMsg.split(m7.group(1))[1];
+                            baseMsg = StringUtils.substrBystr(baseMsg,m7.group(1));
                         } catch (ArrayIndexOutOfBoundsException e) {
                             e.printStackTrace();
                         }
@@ -207,6 +208,9 @@ public class PdfboxUtil {
                     List la = new ArrayList();
                     try {
                         for (int i = 0; i < ss.length ; i=i+4) {
+                            if(i+4>ss.length-1){
+                                break;
+                            }
                             Residence residence = new Residence();
                             residence.setSortno(ss[i]);
                             residence.setAddress(ss[i+1]);
@@ -215,8 +219,8 @@ public class PdfboxUtil {
                             la.add(residence);
                         }
                         base.setResidences(la);
-                        baseMsg = baseMsg.split(ma.group(1))[1];
-                    } catch (ArrayIndexOutOfBoundsException e) {
+                        baseMsg = StringUtils.substrBystr(baseMsg,ma.group(1));
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
@@ -229,14 +233,17 @@ public class PdfboxUtil {
                     List la = new ArrayList();
                     try {
                         for (int i = 0; i < ss.length ; i=i+2) {
+                            if (i+2>ss.length-1){
+                                break;
+                            }
                             ResidenceData house =new ResidenceData();
                             house.setNo(ss[i]);
                             house.setData(ss[i+1]);
                             la.add(house);
                         }
                         baseData.setResidenceData(la);
-                        baseMsg = baseMsg.split(mb.group(1))[1];
-                    } catch (ArrayIndexOutOfBoundsException e) {
+                        baseMsg = StringUtils.substrBystr(baseMsg,mb.group(1));
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
@@ -274,7 +281,7 @@ public class PdfboxUtil {
                             la.add(professional);
                         }
                         base.setProfessionals(la);
-                        baseMsg = baseMsg.split(mc.group(1))[1];
+                        baseMsg = StringUtils.substrBystr(baseMsg,mc.group(1));
                     } catch (ArrayIndexOutOfBoundsException e) {
                         e.printStackTrace();
                     }
@@ -294,6 +301,9 @@ public class PdfboxUtil {
                         }
                         for (int j = 0; j < ll.size(); j++) {
                             Professional professional = (Professional) la.get(j);
+                            if(professional == null){
+                                break;
+                            }
                             ll.get(j);
                             professional.setOccupation(ss[ll.get(j)+1]);
                             professional.setIndustry(ss[ll.get(j)+2]);//private String business;
@@ -308,6 +318,8 @@ public class PdfboxUtil {
                         e.printStackTrace();
                     } catch (IndexOutOfBoundsException e) {
                         e.printStackTrace();
+                    } catch (Exception e){
+                        e.printStackTrace();
                     }
                 }
                 //居住信息数据
@@ -319,6 +331,9 @@ public class PdfboxUtil {
                     List la = new ArrayList();
                     try {
                         for (int i = 0; i < ss.length ; i=i+2) {
+                            if (i+2>ss.length-1){
+                                break;
+                            }
                             ProfessionalData professionalData =new ProfessionalData();
                             professionalData.setNo(ss[i]);
                             professionalData.setData(ss[i+1]);
@@ -356,7 +371,7 @@ public class PdfboxUtil {
                             creditcue.setFirststandardloancardopenMonth(ss[7]);
                             creditcue.setAnnounceCount(ss[8]);
                             creditcue.setDissentCount(ss[9]);
-                            sumMsg = sumMsg.split(m1.group(1))[1];
+                            sumMsg = StringUtils.substrBystr(sumMsg,m1.group(1));
                         } catch (ArrayIndexOutOfBoundsException e) {
                             e.printStackTrace();
                         }
@@ -383,7 +398,7 @@ public class PdfboxUtil {
                                 overdueSummary.setMonths3(ss[9]);
                                 overdueSummary.setHighestoverdueamountpermon3(ss[10]);
                                 overdueSummary.setMaxDuration3(ss[11]);
-                                sumMsg = sumMsg.split(m2.group(1))[1];
+                                sumMsg = StringUtils.substrBystr(sumMsg,m2.group(1));
                             } catch (ArrayIndexOutOfBoundsException e) {
                                 e.printStackTrace();
                             }
@@ -405,7 +420,7 @@ public class PdfboxUtil {
                             unpaidLoan.setCreditLimit(ss[3]);
                             unpaidLoan.setBalance(ss[4]);
                             unpaidLoan.setLatest6monthusedavgamount(ss[5]);
-                            sumMsg = sumMsg.split(m3.group(1))[1];
+                            sumMsg = StringUtils.substrBystr(sumMsg,m3.group(1));
                         } catch (ArrayIndexOutOfBoundsException e) {
                             e.printStackTrace();
                         }
@@ -453,7 +468,7 @@ public class PdfboxUtil {
                                 flag = false;
                                 String s1 = m1.group(1).trim();
                                 loanInfo.setMessage(s1);
-                                dai = dai.split(m1.group(1))[1];
+                                dai = StringUtils.substrBystr(dai,m1.group(1));
                             }
                             Matcher m2 = compile("最近一次还款 日期(.*?)当前逾期期 数").matcher(dai);
                             if (m2.find()) {
@@ -470,7 +485,7 @@ public class PdfboxUtil {
                                         loanInfo.setScheduledpaymentdate(ss[5]);//应还款日
                                         loanInfo.setActualpaymentamount(ss[6]);//本月实还款
                                         loanInfo.setRecentpaydate(ss[7]);//最近一次还款日期
-                                        dai = dai.split(m2.group(1))[1];
+                                        dai = StringUtils.substrBystr(dai,m2.group(1));
                                     } catch (ArrayIndexOutOfBoundsException e) {
                                         e.printStackTrace();
                                     }
@@ -489,7 +504,7 @@ public class PdfboxUtil {
                                         loanInfo.setOverdue61to90amount(ss[3]);//当前逾期金额
                                         loanInfo.setOverdue91to180amount(ss[4]);//当前逾期金额
                                         loanInfo.setOverdueover180amount(ss[5]);//当前逾期金额
-                                        dai = dai.split(m3.group(1))[1];
+                                        dai = StringUtils.substrBystr(dai,m3.group(1));
                                     } catch (ArrayIndexOutOfBoundsException e) {
                                         e.printStackTrace();
                                     }
@@ -503,7 +518,7 @@ public class PdfboxUtil {
                                 if (ss.length != 0) {
                                     try {
                                         loanInfo.setRecord(s1);
-                                        dai = dai.substring(dai.indexOf(s1)+s1.length());
+                                        dai = StringUtils.substrBystr(dai,m4.group(1));
                                     } catch (ArrayIndexOutOfBoundsException e) {
                                         e.printStackTrace();
                                     }
@@ -559,7 +574,7 @@ public class PdfboxUtil {
                         flag = false;
                         String s1 = m1.group(1).trim();
                         loancardInfo.setMessage(s1);
-                        creditMsg = creditMsg.split(m1.group(1))[1];
+                        creditMsg = StringUtils.substrBystr(creditMsg,m1.group(1));
                     }
                     Matcher m2 = compile("本月应还款(.*?)账单日").matcher(creditMsg);
                     if (m2.find()) {
@@ -573,7 +588,7 @@ public class PdfboxUtil {
                                 loancardInfo.setLatest6monthusedavgamount(ss[2]);//最近6个月平均使用额度
                                 loancardInfo.setUsedhighestamount(ss[3]);//最大使用额度
                                 loancardInfo.setScheduledpaymentamount(ss[4]);//本月应还款
-                                creditMsg = creditMsg.substring(creditMsg.indexOf(s1)+s1.length());
+                                creditMsg = StringUtils.substrBystr(creditMsg,m2.group(1));
                             } catch (ArrayIndexOutOfBoundsException e) {
                                 e.printStackTrace();
                             }
@@ -591,7 +606,7 @@ public class PdfboxUtil {
                                 loancardInfo.setRecentpaydate(ss[2]);
                                 loancardInfo.setCurroverduecyc(ss[3]);
                                 loancardInfo.setCurroverdueamount(ss[4]);
-                                creditMsg = creditMsg.split(m3.group(1))[1];
+                                creditMsg = StringUtils.substrBystr(creditMsg,m3.group(1));
                             } catch (ArrayIndexOutOfBoundsException e) {
                                 e.printStackTrace();
                             }
@@ -605,7 +620,7 @@ public class PdfboxUtil {
                         if (ss.length != 0) {
                             try {
                                 loancardInfo.setRecord(s1);
-                                creditMsg = creditMsg.substring(creditMsg.indexOf(s1)+s1.length());
+                                creditMsg = StringUtils.substrBystr(creditMsg,m4.group(1));
                             } catch (ArrayIndexOutOfBoundsException e) {
                                 e.printStackTrace();
                             }
@@ -692,7 +707,7 @@ public class PdfboxUtil {
                     }catch (ArrayIndexOutOfBoundsException e){
                         e.printStackTrace();
                     }
-                    commonMsg =commonMsg.substring(commonMsg.indexOf(s1)+s1.length());
+                    commonMsg =StringUtils.substrBystr(commonMsg,m1.group(1));
                 }
                 Matcher m2 = compile("信息更新日期(.*)").matcher(commonMsg);
                 if (m2.find()){
@@ -743,6 +758,9 @@ public class PdfboxUtil {
                     List<RecordDetail> company = new ArrayList<>();
                     try {
                         for (int i = 0; i < ss.length; i=i+4) {
+                            if(i+3>ss.length-1){
+                                break;
+                            }
                             RecordDetail recordDetail = new RecordDetail();
                             recordDetail.setNo(ss[i]);
                             recordDetail.setQueryDate(ss[i+1]);
@@ -754,28 +772,51 @@ public class PdfboxUtil {
                         if(company.size()!=0){
                             recordSummary1.setCompany(company);
                         }
-                    }catch (ArrayIndexOutOfBoundsException e){
+                    }catch (Exception e){
                         e.printStackTrace();
                     }
                 }
                 if (queryMsg.trim().length()!=0) {
-                    String s1 =queryMsg.substring(queryMsg.indexOf("查询原因")+"查询原因".length()).trim();
-                    String ss[] = s1.split(" +");
-                    List<RecordDetail> person = new ArrayList<>();
-                    try {
-                        for (int i = 0; i < ss.length; i=i+4) {
-                            RecordDetail recordDetail = new RecordDetail();
-                            recordDetail.setNo(ss[i]);
-                            recordDetail.setQueryDate(ss[i+1]);
-                            recordDetail.setQuerier(ss[i+2]);
-                            recordDetail.setQueryReason(ss[i+3]);
-                            person.add(recordDetail);
+                    String s1;
+                    if(queryMsg.indexOf("查询原因")>=0){
+                        s1 = queryMsg.substring(queryMsg.indexOf("查询原因")+"查询原因".length()).trim();
+                        String ss[] = s1.split(" +");
+                        List<RecordDetail> person = new ArrayList<>();
+                        try {
+                            for (int i = 0; i < ss.length; i=i+4) {
+                                RecordDetail recordDetail = new RecordDetail();
+                                recordDetail.setNo(ss[i]);
+                                recordDetail.setQueryDate(ss[i+1]);
+                                recordDetail.setQuerier(ss[i+2]);
+                                recordDetail.setQueryReason(ss[i+3]);
+                                person.add(recordDetail);
+                            }
+                            if(person.size()!=0){
+                                recordSummary1.setPerson(person);
+                            }
+                        }catch (ArrayIndexOutOfBoundsException e){
+                            e.printStackTrace();
+                        }
+                    }else{
+                        List<RecordDetail> person = new ArrayList<>();
+                        s1 = queryMsg.substring(queryMsg.indexOf("查 询 原 因")+"查 询 原 因".length()).trim();
+                        String []ss = s1.split(" [0-9]{1} ");
+                        try {
+                            for (int i = 1; i < ss.length; i++) {
+                                RecordDetail recordDetail = new RecordDetail();
+                                String ss1[] = ss[i].split(" +");
+                                recordDetail.setNo(i+"");
+                                recordDetail.setQueryDate(ss1[0]);
+                                recordDetail.setQuerier(ss1[1]);
+                                recordDetail.setQueryReason(ss[i].replaceAll(ss1[0],"").replaceAll(ss1[1],""));
+                                person.add(recordDetail);
+                            }
+                        }catch (ArrayIndexOutOfBoundsException e){
+                            e.printStackTrace();
                         }
                         if(person.size()!=0){
                             recordSummary1.setPerson(person);
                         }
-                    }catch (ArrayIndexOutOfBoundsException e){
-                        e.printStackTrace();
                     }
                 }
 
@@ -787,6 +828,7 @@ public class PdfboxUtil {
             msg.setCommonMsg(commonMsg1);
             msg.setRecordSummary(recordSummary1);
             System.out.println("=================================");
+            document.close();
             return msg;
             //System.out.println(baseMsg);
             //System.out.println(sumMsg);
