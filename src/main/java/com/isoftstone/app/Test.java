@@ -19,10 +19,10 @@ public class Test {
         xStream = new XStream(new DomDriver());
     }
     public static void main(String[] args) throws IOException {
-        Messages msg = new PdfboxUtil().getMessages("src/main/resources/pdf/岳跃伟-370826198202223016.pdf");
+        Messages msg = new PdfboxUtil().getMessages("src/main/resources/pdf/逄露露-230803198801290629.pdf");
         String jsonStr = JSON.toJSONString(msg);
-        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + xStream.toXML(msg);
         System.out.println(jsonStr);
+        //String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + xStream.toXML(msg);
         //System.out.println(xml);
     }
 }

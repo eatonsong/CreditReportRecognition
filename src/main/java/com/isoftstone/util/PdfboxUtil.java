@@ -71,7 +71,11 @@ public class PdfboxUtil {
             if(mmmmm.find()){
                 queryMsg = mmmmm.group(1);
             }
-
+            //System.out.println(baseMsg);
+            //System.out.println(sumMsg);
+            //System.out.println(creditMsg);
+            //System.out.println(commonMsg);
+            // System.out.println(queryMsg);
             BaseMsg base = new BaseMsg();
             BaseMsgData baseData = new BaseMsgData();
             if (baseMsg != null) {
@@ -302,6 +306,9 @@ public class PdfboxUtil {
                         for (int j = 0; j < ll.size(); j++) {
                             Professional professional = (Professional) la.get(j);
                             if(professional == null){
+                                break;
+                            }
+                            if(ll.get(j)+6>ss.length-1){
                                 break;
                             }
                             ll.get(j);
@@ -689,23 +696,56 @@ public class PdfboxUtil {
                     List ll = new ArrayList();
                     String s1 = m1.group(1).trim();
                     String ss[] = s1.split(" +");
-                    try {
-                        for (int i = 0; i <ss.length ; i=i+9) {
-                            AccfundRecord accfundRecord = new AccfundRecord();
-                            accfundRecord.setNo(ss[i]);
-                            accfundRecord.setArea(ss[i+1]);
-                            accfundRecord.setRegisterdate(ss[i+2]);
-                            accfundRecord.setFirstmonth(ss[i+3]);
-                            accfundRecord.setTomonth(ss[i+4]);
-                            accfundRecord.setState(ss[i+5]);
-                            accfundRecord.setPay(ss[i+6]);
-                            accfundRecord.setOwnpercent(ss[i+7]);
-                            accfundRecord.setCompercent(ss[i+8]);
-                            ll.add(accfundRecord);
+                    //判断是否乱格式
+                    String []ss1 = s1.split(" [0-9]{1,2}   ");
+                    if(ss1.length>0&&ss1[0].split(" ").length>8){
+                        for (int i = 0; i < ss1.length; i++) {
+                            Matcher m_1 = compile("(.*?)\\d{4}\\.\\d{2}\\.\\d{2}").matcher(ss1[i]);
+                            if (m_1.find()){
+                                String m_1Msg = ss1[i];
+                                AccfundRecord accfundRecord = new AccfundRecord();
+                                accfundRecord.setNo(i+1+"");
+                                accfundRecord.setArea(m_1.group(1).replaceAll(" ",""));
+                                m_1Msg = StringUtils.substrBystr(m_1Msg,m_1.group(1)).trim();
+                                String []ssa = m_1Msg.split(" +");
+                                for (int j = 0; j < ssa.length; j+=7) {
+                                    if(j+6>ssa.length){
+                                        break;
+                                    }
+                                    accfundRecord.setRegisterdate(ssa[j]);
+                                    accfundRecord.setFirstmonth(ssa[j+1]);
+                                    accfundRecord.setTomonth(ssa[j+2]);
+                                    accfundRecord.setState(ssa[j+3]);
+                                    accfundRecord.setPay(ssa[j+4]);
+                                    accfundRecord.setOwnpercent(ssa[j+5]);
+                                    accfundRecord.setCompercent(ssa[j+6]);
+                                    ll.add(accfundRecord);
+                                }
+                            }
                         }
                         commonMsg1.setAccfundRecords(ll);
-                    }catch (ArrayIndexOutOfBoundsException e){
-                        e.printStackTrace();
+                    }else{
+                        try {
+                            for (int i = 0; i <ss.length ; i=i+9) {
+                                if(i+8>ss.length){
+                                    break;
+                                }
+                                AccfundRecord accfundRecord = new AccfundRecord();
+                                accfundRecord.setNo(ss[i]);
+                                accfundRecord.setArea(ss[i+1]);
+                                accfundRecord.setRegisterdate(ss[i+2]);
+                                accfundRecord.setFirstmonth(ss[i+3]);
+                                accfundRecord.setTomonth(ss[i+4]);
+                                accfundRecord.setState(ss[i+5]);
+                                accfundRecord.setPay(ss[i+6]);
+                                accfundRecord.setOwnpercent(ss[i+7]);
+                                accfundRecord.setCompercent(ss[i+8]);
+                                ll.add(accfundRecord);
+                            }
+                            commonMsg1.setAccfundRecords(ll);
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
                     }
                     commonMsg =StringUtils.substrBystr(commonMsg,m1.group(1));
                 }
@@ -778,6 +818,7 @@ public class PdfboxUtil {
                 }
                 if (queryMsg.trim().length()!=0) {
                     String s1;
+                    System.out.println(queryMsg);
                     if(queryMsg.indexOf("查询原因")>=0){
                         s1 = queryMsg.substring(queryMsg.indexOf("查询原因")+"查询原因".length()).trim();
                         String ss[] = s1.split(" +");
@@ -802,7 +843,7 @@ public class PdfboxUtil {
                         s1 = queryMsg.substring(queryMsg.indexOf("查 询 原 因")+"查 询 原 因".length()).trim();
                         String []ss = s1.split(" [0-9]{1} ");
                         try {
-                            for (int i = 1; i < ss.length; i++) {
+                            for (int i = 0; i < ss.length; i++) {
                                 RecordDetail recordDetail = new RecordDetail();
                                 String ss1[] = ss[i].split(" +");
                                 recordDetail.setNo(i+"");
@@ -829,12 +870,12 @@ public class PdfboxUtil {
             msg.setRecordSummary(recordSummary1);
             System.out.println("=================================");
             document.close();
-            return msg;
             //System.out.println(baseMsg);
             //System.out.println(sumMsg);
             //System.out.println(creditMsg);
-           // System.out.println(commonMsg);
+            //System.out.println(commonMsg);
             // System.out.println(queryMsg);
+            return msg;
         } catch (Exception e) {
             e.printStackTrace();
         }
