@@ -57,19 +57,19 @@ public class PdfboxUtil {
             String commonMsg = null;
             String queryMsg = null;
             if (m.find()) {
-                baseMsg = m.group(1);
+                baseMsg = m.group(1).replaceAll(" "," ");
             }
             if(mm.find()){
-                sumMsg = mm.group(1);
+                sumMsg = mm.group(1).replaceAll(" "," ");
             }
             if(mmm.find()){
                 creditMsg = mmm.group(1);
             }
             if(mmmm.find()){
-                commonMsg = mmmm.group(1);
+                commonMsg = mmmm.group(1).replaceAll(" "," ");
             }
             if(mmmmm.find()){
-                queryMsg = mmmmm.group(1);
+                queryMsg = mmmmm.group(1).replaceAll(" "," ");
             }
             //System.out.println(baseMsg);
             //System.out.println(sumMsg);
@@ -261,7 +261,7 @@ public class PdfboxUtil {
                     try {
                         List<Integer> ll = new ArrayList();
                         for (int j = 0; j <ss1.length ; j++) {
-                            if(ss1[j].replaceAll(" ","").trim().matches("[0-9]{1}")){
+                            if(ss1[j].trim().matches("[0-9]{1}")){
                                ll.add(j);
                             }
                         }
@@ -299,7 +299,7 @@ public class PdfboxUtil {
                     try {
                         List<Integer> ll = new ArrayList();
                         for (int i = 0; i < ss.length ; i++) {
-                            if(ss[i].replaceAll(" ","").trim().matches("[0-9]{1}")){
+                            if(ss[i].trim().matches("[0-9]{1}")){
                                 ll.add(i);
                             }
                         }
@@ -471,7 +471,7 @@ public class PdfboxUtil {
                             LoanInfo loanInfo = new LoanInfo();
                             Matcher m1 = compile("(.*?)账户状态").matcher(dai);
                             boolean flag = true;
-                            if (m1.find()) {
+                            if (m1.find()&&StringUtils.isNotEmpty(m1.group(1))) {
                                 flag = false;
                                 String s1 = m1.group(1).trim();
                                 loanInfo.setMessage(s1);
@@ -518,7 +518,7 @@ public class PdfboxUtil {
                                 }
                             }
                             Matcher m4 = compile("还款记录(.*?) ").matcher(dai);
-                            if (m4.find()) {
+                            if (m4.find()&&StringUtils.isNotEmpty(m4.group(1))) {
                                 flag = false;
                                 String s1 = m4.group(1).trim();
                                 String ss[] = s1.split(" +");
@@ -577,7 +577,7 @@ public class PdfboxUtil {
                     LoancardInfo loancardInfo = new LoancardInfo();
                     Matcher m1 = compile("(.*?)账户状态 ").matcher(creditMsg);
                     boolean flag = true;
-                    if (m1.find()) {
+                    if (m1.find()&&StringUtils.isNotEmpty(m1.group(1))) {
                         flag = false;
                         String s1 = m1.group(1).trim();
                         loancardInfo.setMessage(s1);
@@ -701,7 +701,7 @@ public class PdfboxUtil {
                     if(ss1.length>0&&ss1[0].split(" ").length>8){
                         for (int i = 0; i < ss1.length; i++) {
                             Matcher m_1 = compile("(.*?)\\d{4}\\.\\d{2}\\.\\d{2}").matcher(ss1[i]);
-                            if (m_1.find()){
+                            if (m_1.find()&&StringUtils.isNotEmpty(m_1.group(1))){
                                 String m_1Msg = ss1[i];
                                 AccfundRecord accfundRecord = new AccfundRecord();
                                 accfundRecord.setNo(i+1+"");
@@ -818,7 +818,6 @@ public class PdfboxUtil {
                 }
                 if (queryMsg.trim().length()!=0) {
                     String s1;
-                    System.out.println(queryMsg);
                     if(queryMsg.indexOf("查询原因")>=0){
                         s1 = queryMsg.substring(queryMsg.indexOf("查询原因")+"查询原因".length()).trim();
                         String ss[] = s1.split(" +");

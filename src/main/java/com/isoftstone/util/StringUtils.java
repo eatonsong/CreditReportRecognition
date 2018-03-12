@@ -8,4 +8,17 @@ public class StringUtils {
     public static String substrBystr(String base,String str){
         return base.substring(base.indexOf(str)+str.length());
     }
+    public static boolean isNotEmpty(String str){
+        boolean a = true;
+        try {
+            if(str==null||"".equals(str)||"".equals(str.replaceAll(" ",""))){
+                a = false;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            a = false;
+        }
+        return a;
+    }
 }
