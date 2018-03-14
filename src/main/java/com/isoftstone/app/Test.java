@@ -6,6 +6,16 @@ package com.isoftstone.app;/*
 
 import com.alibaba.fastjson.JSON;
 import com.isoftstone.dto.Messages;
+import com.isoftstone.dto.msg1.*;
+import com.isoftstone.dto.msg2.*;
+import com.isoftstone.dto.msg3.CreditMsg;
+import com.isoftstone.dto.msg3.LoanInfo;
+import com.isoftstone.dto.msg3.LoancardInfo;
+import com.isoftstone.dto.msg4.AccfundCompany;
+import com.isoftstone.dto.msg4.AccfundRecord;
+import com.isoftstone.dto.msg4.CommonMsg;
+import com.isoftstone.dto.msg5.RecordDetail;
+import com.isoftstone.dto.msg5.RecordSummary;
 import com.isoftstone.location.TextLocations;
 import com.isoftstone.util.PdfboxUtil;
 import com.thoughtworks.xstream.XStream;
@@ -15,14 +25,35 @@ import java.io.IOException;
 
 public class Test {
     private static XStream xStream;
-    static {
-        xStream = new XStream(new DomDriver());
-    }
     public static void main(String[] args) throws IOException {
-        Messages msg = new PdfboxUtil().getMessages("src/main/resources/pdf/刘侠-341224199404270923.pdf");
+        Messages msg = new PdfboxUtil().getMessages("src/main/resources/pdf/001.pdf");
         String jsonStr = JSON.toJSONString(msg);
         System.out.println(jsonStr);
-        //String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + xStream.toXML(msg);
-        //System.out.println(xml);
+/*        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + xStream.toXML(msg)+"</xml>";
+        System.out.println(xml);*/
+    }
+    static {
+        xStream = new XStream(new DomDriver());
+        xStream.alias("Messages",Messages.class);
+        xStream.alias("BaseMsg",BaseMsg.class);
+        xStream.alias("BaseMsgData",BaseMsgData.class);
+        xStream.alias("Professional",Professional.class);
+        xStream.alias("ProfessionalData",ProfessionalData.class);
+        xStream.alias("Residence",Residence.class);
+        xStream.alias("ResidenceData",ResidenceData.class);
+        xStream.alias("Spouse",Spouse.class);
+        xStream.alias("Creditcue",Creditcue.class);
+        xStream.alias("OverdueSummary",OverdueSummary.class);
+        xStream.alias("SumMsg",SumMsg.class);
+        xStream.alias("UndestoryLoancard",UndestoryLoancard.class);
+        xStream.alias("UnpaidLoan",UnpaidLoan.class);
+        xStream.alias("CreditMsg",CreditMsg.class);
+        xStream.alias("LoancardInfo",LoancardInfo.class);
+        xStream.alias("LoanInfo",LoanInfo.class);
+        xStream.alias("AccfundCompany",AccfundCompany.class);
+        xStream.alias("AccfundRecord",AccfundRecord.class);
+        xStream.alias("CommonMsg",CommonMsg.class);
+        xStream.alias("RecordDetail",RecordDetail.class);
+        xStream.alias("RecordSummary",RecordSummary.class);
     }
 }

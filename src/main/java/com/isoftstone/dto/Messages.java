@@ -11,9 +11,9 @@ import com.isoftstone.dto.msg2.SumMsg;
 import com.isoftstone.dto.msg3.CreditMsg;
 import com.isoftstone.dto.msg4.CommonMsg;
 import com.isoftstone.dto.msg5.RecordSummary;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import java.io.Serializable;
-
 public class Messages  implements Serializable{
     private static final long serialVersionUID = 7087117012816485185L;
     private String reportNo;//报告编号

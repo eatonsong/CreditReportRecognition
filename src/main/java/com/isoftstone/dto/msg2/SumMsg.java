@@ -11,6 +11,15 @@ public class SumMsg  implements Serializable {
     private OverdueSummary overdueSummary;
     private UnpaidLoan unpaidLoan;
     private UndestoryLoancard undestoryLoancard;
+    private UndestorySecuredLoancard undestorySecuredLoancard;
+
+    public UndestorySecuredLoancard getUndestorySecuredLoancard() {
+        return undestorySecuredLoancard;
+    }
+
+    public void setUndestorySecuredLoancard(UndestorySecuredLoancard undestorySecuredLoancard) {
+        this.undestorySecuredLoancard = undestorySecuredLoancard;
+    }
 
     public Creditcue getCreditcue() {
         return creditcue;

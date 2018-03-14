@@ -63,7 +63,7 @@ public class PdfboxUtil {
                 sumMsg = mm.group(1).replaceAll(" "," ");
             }
             if(mmm.find()){
-                creditMsg = mmm.group(1);
+                creditMsg = mmm.group(1).replaceAll(" "," ");
             }
             if(mmmm.find()){
                 commonMsg = mmmm.group(1).replaceAll(" "," ");
@@ -121,8 +121,8 @@ public class PdfboxUtil {
                         try {
                             base.setOfficetelePhoneNo(ss[0]);
                             base.setHometelePhoneNo(ss[1]);
-                            base.setEdulevel(ss[2]);
-                            base.setEdudegree(ss[3]);
+                            base.setEdulevel(StringUtils.addArrayByIndex(ss,2,ss.length-2));
+                            base.setEdudegree(ss[ss.length-1]);
                             baseMsg = StringUtils.substrBystr(baseMsg,m3.group(1));
                         } catch (ArrayIndexOutOfBoundsException e) {
                             e.printStackTrace();
@@ -133,6 +133,9 @@ public class PdfboxUtil {
                 if (m4.find()) {
                     String s2 = m4.group(1).replaceAll("数据发生机构名称", "").trim();
                     String ss[] = s2.split(" +");
+                    if(ss.length>4){
+                        ss = StringUtils.addToArrayIndexFront(ss,4);
+                    }
                     if (ss.length != 0) {
                         try {
                             baseData.setOfficetelePhoneNo(ss[0]);
@@ -212,7 +215,7 @@ public class PdfboxUtil {
                     List la = new ArrayList();
                     try {
                         for (int i = 0; i < ss.length ; i=i+4) {
-                            if(i+4>ss.length-1){
+                            if(i+4>ss.length){
                                 break;
                             }
                             Residence residence = new Residence();
@@ -237,7 +240,7 @@ public class PdfboxUtil {
                     List la = new ArrayList();
                     try {
                         for (int i = 0; i < ss.length ; i=i+2) {
-                            if (i+2>ss.length-1){
+                            if (i+2>ss.length){
                                 break;
                             }
                             ResidenceData house =new ResidenceData();
@@ -294,6 +297,7 @@ public class PdfboxUtil {
                 Matcher md1 = compile("编号 职业 行业 职务 职称进入本单位年份 信息更新日期(.*?)编号 数据发生机构名称").matcher(content0);
                 if(md1.find()){
                     String s1 = md1.group(1).trim();
+                    s1 = s1.replaceAll(" "," ");
                     String ss[] = s1.split(" +");
                     List la = base.getProfessionals();
                     try {
@@ -338,7 +342,7 @@ public class PdfboxUtil {
                     List la = new ArrayList();
                     try {
                         for (int i = 0; i < ss.length ; i=i+2) {
-                            if (i+2>ss.length-1){
+                            if (i+2>ss.length){
                                 break;
                             }
                             ProfessionalData professionalData =new ProfessionalData();
@@ -453,6 +457,30 @@ public class PdfboxUtil {
                         }
                     }
                 }
+                if(sumMsg.contains("未销户准贷记卡信息汇总")){
+                    sumMsg = StringUtils.substrBystr(sumMsg,"未销户准贷记卡信息汇总");
+                    Matcher m5 = compile("最近6个月平均透 支余额(.*)").matcher(sumMsg);
+                    UndestorySecuredLoancard undestoryLoancard1 = new UndestorySecuredLoancard();
+                    if (m5.find()) {
+                        String s1 = m5.group(1).trim();
+                        String ss[] = s1.split(" +");
+                        if (ss.length != 0) {
+                            try {
+                                undestoryLoancard1.setFinancecorpCount(ss[0]);
+                                undestoryLoancard1.setFinanceorgCount(ss[1]);
+                                undestoryLoancard1.setAccountCount(ss[2]);
+                                undestoryLoancard1.setCreditlimit(ss[3]);
+                                undestoryLoancard1.setMaxcreditlimitperorg(ss[4]);
+                                undestoryLoancard1.setMincreditlimitperorg(ss[5]);
+                                undestoryLoancard1.setUsedcreditlimit(ss[6]);
+                                undestoryLoancard1.setLatest6monthusedavgamount(ss[7]);
+                                sum.setUndestorySecuredLoancard(undestoryLoancard1);
+                            } catch (ArrayIndexOutOfBoundsException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
                 sum.setUnpaidLoan(unpaidLoan);
                 sum.setUndestoryLoancard(undestoryLoancard);
             }
@@ -517,10 +545,11 @@ public class PdfboxUtil {
                                     }
                                 }
                             }
-                            Matcher m4 = compile("还款记录(.*?) ").matcher(dai);
+                            Matcher m4 = compile("还款记录(.*?)[1-9]+//.").matcher(dai);
                             if (m4.find()&&StringUtils.isNotEmpty(m4.group(1))) {
                                 flag = false;
                                 String s1 = m4.group(1).trim();
+                                System.out.println(s1);
                                 String ss[] = s1.split(" +");
                                 if (ss.length != 0) {
                                     try {
@@ -698,7 +727,7 @@ public class PdfboxUtil {
                     String ss[] = s1.split(" +");
                     //判断是否乱格式
                     String []ss1 = s1.split(" [0-9]{1,2}   ");
-                    if(ss1.length>0&&ss1[0].split(" ").length>8){
+                    if(StringUtils.isChaos(ss)){
                         for (int i = 0; i < ss1.length; i++) {
                             Matcher m_1 = compile("(.*?)\\d{4}\\.\\d{2}\\.\\d{2}").matcher(ss1[i]);
                             if (m_1.find()&&StringUtils.isNotEmpty(m_1.group(1))){
@@ -726,6 +755,16 @@ public class PdfboxUtil {
                         commonMsg1.setAccfundRecords(ll);
                     }else{
                         try {
+                            while (true){
+                                Matcher ms = compile("[0-9]{1} (.*? *?) \\d{4}\\.\\d{2}\\.\\d{2}").matcher(s1);
+                                if(ms.find()){
+                                    s1 = s1.replaceAll(ms.group(1),ms.group(1).replaceAll(" ",""));
+                                }
+                                if (!StringUtils.isNotEmpty(ms.group(1))){
+                                    break;
+                                }
+                            }
+                            ss = s1.split(" +");
                             for (int i = 0; i <ss.length ; i=i+9) {
                                 if(i+8>ss.length){
                                     break;
@@ -798,7 +837,7 @@ public class PdfboxUtil {
                     List<RecordDetail> company = new ArrayList<>();
                     try {
                         for (int i = 0; i < ss.length; i=i+4) {
-                            if(i+3>ss.length-1){
+                            if(i+3>ss.length){
                                 break;
                             }
                             RecordDetail recordDetail = new RecordDetail();
