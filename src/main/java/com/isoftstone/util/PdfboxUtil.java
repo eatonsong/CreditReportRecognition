@@ -24,9 +24,12 @@ import org.apache.pdfbox.text.PDFTextStripperByArea;
 
 import java.awt.*;
 import java.io.*;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static java.util.regex.Pattern.*;
 
@@ -46,11 +49,19 @@ public class PdfboxUtil {
             content = content.replaceAll(regex2, "");
             String content0 = content.replaceAll("\r\n","");
             content = content.replaceAll("\r\n", " ");
+            if(content.contains("\n")){
+                content = content.replaceAll("\n", " ");
+                content0 = content0.replaceAll("\n", "");
+            }
             Matcher m = compile("个人基本信息(.*?)信息概要").matcher(content);
             Matcher mm = compile("信息概要(.*?)三 信贷交易信息明细").matcher(content);
             Matcher mmm = compile("三 信贷交易信息明细(.*?)四 公共信息明细").matcher(content);
-            Matcher mmmm = compile("四 公共信息明细(.*?)五 查询记录").matcher(content);
-            Matcher mmmmm = compile("五 查询记录(.*?)报告说明").matcher(content);
+            Matcher mmmm = Pattern.compile("四 公共信息明细(.*?)五 查询记录").matcher(content);
+            Matcher mmmmm = Pattern.compile("五 查询记录(.*?)报告说明").matcher(content);
+            System.out.println(content.contains("\r"));
+            System.out.println(content.contains("\n"));
+            System.out.println(content.contains("\r\n"));
+
             String baseMsg = null;
             String sumMsg = null;
             String creditMsg = null;
@@ -72,10 +83,10 @@ public class PdfboxUtil {
                 queryMsg = mmmmm.group(1).replaceAll(" "," ");
             }
             //System.out.println(baseMsg);
-            //System.out.println(sumMsg);
-            //System.out.println(creditMsg);
-            //System.out.println(commonMsg);
-            // System.out.println(queryMsg);
+            // //System.out.println(sumMsg);
+/*            System.out.println(creditMsg);
+            System.out.println(commonMsg);
+             System.out.println(queryMsg);*/
             BaseMsg base = new BaseMsg();
             BaseMsgData baseData = new BaseMsgData();
             if (baseMsg != null) {
@@ -908,11 +919,11 @@ public class PdfboxUtil {
             msg.setRecordSummary(recordSummary1);
             System.out.println("=================================");
             document.close();
-            //System.out.println(baseMsg);
-            //System.out.println(sumMsg);
-            //System.out.println(creditMsg);
-            //System.out.println(commonMsg);
-            // System.out.println(queryMsg);
+            /*System.out.println(baseMsg);
+            System.out.println(sumMsg);
+            System.out.println(creditMsg);
+            System.out.println(commonMsg);
+            System.out.println(queryMsg);*/
             return msg;
         } catch (Exception e) {
             e.printStackTrace();
@@ -921,10 +932,9 @@ public class PdfboxUtil {
     }
 
     public void getDocument(String pdfPath) {
-        File pdfFile = new File(pdfPath);
         InputStream input = null;
         try {
-            input = new FileInputStream(pdfFile);
+            input = this.getClass().getResourceAsStream(pdfPath);
             // 加载 pdf 文档
             document = PDDocument.load(input);
         } catch (FileNotFoundException e) {

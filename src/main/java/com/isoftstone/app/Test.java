@@ -16,17 +16,18 @@ import com.isoftstone.dto.msg4.AccfundRecord;
 import com.isoftstone.dto.msg4.CommonMsg;
 import com.isoftstone.dto.msg5.RecordDetail;
 import com.isoftstone.dto.msg5.RecordSummary;
-import com.isoftstone.location.TextLocations;
 import com.isoftstone.util.PdfboxUtil;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 public class Test {
     private static XStream xStream;
+
     public static void main(String[] args) throws IOException {
-        Messages msg = new PdfboxUtil().getMessages("src/main/resources/pdf/001.pdf");
+        Messages msg = new PdfboxUtil().getMessages("/pdf/001.pdf");
         String jsonStr = JSON.toJSONString(msg);
         System.out.println(jsonStr);
 /*        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + xStream.toXML(msg)+"</xml>";
